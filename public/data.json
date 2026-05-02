@@ -1,0 +1,46 @@
+{
+  "restaurant": {
+    "name": "RestoFlow",
+    "location": "Kigali, Rwanda",
+    "currentTable": "Table 12",
+    "tagline": "Maintain your restaurant's flow with ease and style. Working with us is doing things right.",
+    "heroImage": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&h=1080&fit=crop&crop=center&auto=format&dpr=2&q=80",
+    "heroImage2": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&crop=center&auto=format&dpr=2&q=80",
+    "heroImage3": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&crop=center&auto=format&dpr=2&q=80"
+  },
+  "menu": {
+    "categories": [
+      {
+        "name": "Appetizers",
+        "items": [
+          {
+            "name": "Seared Scallops",
+            "description": "Fresh scallops with microgreens",
+            "price": 28
+          }
+        ]
+      }
+    ]
+  },
+  "features": [
+    {
+      "icon": "/icons/menu-icon.svg",
+      "label": "Menu"
+    },
+    {
+      "icon": "/icons/wine-icon.svg", 
+      "label": "Wine List"
+    },
+    {
+      "icon": "/icons/service-icon.svg",
+      "label": "Service"
+    }
+  ],
+  "uiIcons": {
+    "restaurant": "/icons/restaurant-icon.svg",
+    "clock": "/icons/clock-icon.svg",
+    "table": "/icons/table-icon.svg",
+    "language": "/icons/language-icon.svg",
+    "accessibility": "/icons/accessibility-icon.svg"
+  }
+}

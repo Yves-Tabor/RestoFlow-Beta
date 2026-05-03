@@ -5,7 +5,9 @@ const TopLayout = () => {
   return (
     <>
         <Header/>
-        <Outlet/>
+        <div className="md:ml-64 z-0">
+            <Outlet/>
+        </div>
     </>
   )
 }

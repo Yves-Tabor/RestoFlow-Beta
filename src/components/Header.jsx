@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
 
 export default function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [cartCount, setCartCount] = useState(0)
     
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
@@ -11,6 +12,33 @@ export default function Header() {
     const closeSidebar = () => {
         setIsSidebarOpen(false)
     }
+
+    useEffect(() => {
+        const updateCartCount = () => {
+            const savedCart = localStorage.getItem('restoflow-cart')
+            if (savedCart) {
+                const cart = JSON.parse(savedCart)
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
+                setCartCount(totalItems)
+            } else {
+                setCartCount(0)
+            }
+        }
+
+        updateCartCount()
+        
+        const handleStorageChange = () => {
+            updateCartCount()
+        }
+        
+        window.addEventListener('storage', handleStorageChange)
+        window.addEventListener('cartUpdated', handleStorageChange)
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange)
+            window.removeEventListener('cartUpdated', handleStorageChange)
+        }
+    }, [])
 
     return (
         <>
@@ -38,7 +66,7 @@ export default function Header() {
                             to="/top" 
                             end
                             onClick={closeSidebar}
-                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
                         >
                             <span>Home</span>
                         </NavLink>
@@ -46,7 +74,7 @@ export default function Header() {
                         <NavLink 
                             to="/top/menu" 
                             onClick={closeSidebar}
-                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
                         >
                             <span>Menu</span>
                         </NavLink>
@@ -54,15 +82,20 @@ export default function Header() {
                         <NavLink 
                             to="/top/cart" 
                             onClick={closeSidebar}
-                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
                         >
                             <span>Cart</span>
+                            {cartCount > 0 && (
+                                <span className="bg-[#bb7336] text-white text-xs px-2 py-0.5 rounded-full">
+                                    {cartCount}
+                                </span>
+                            )}
                         </NavLink>
 
                         <NavLink 
                             to="/top/stock" 
                             onClick={closeSidebar}
-                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
                         >
                             <span>Stock</span>
                         </NavLink>
@@ -86,7 +119,6 @@ export default function Header() {
                 </div>
             </aside>
 
-            {/* Mobile Backdrop */}
             {isSidebarOpen && (
                 <div 
                     className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"

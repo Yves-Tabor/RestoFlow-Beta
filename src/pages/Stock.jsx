@@ -180,38 +180,50 @@ const Stock = () => {
                     <div
                       key={item.id}
                       onClick={() => handleItemClick(category, item)}
-                      className="bg-white p-4 rounded-lg border border-[#c4c7c3] cursor-pointer hover:border-[#bb7336] hover:shadow-lg transition-all"
+                      className={`bg-white p-4 rounded-lg border border-[#c4c7c3] cursor-pointer hover:border-[#bb7336] hover:shadow-lg transition-all relative overflow-hidden ${
+                        item.quantity === 0 ? 'opacity-60' : 'opacity-100'
+                      }`}
+                      style={{
+                        backgroundImage: `url(${item.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                      }}
                     >
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-serif text-[#1a1e1b]">{item.name}</h3>
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${status.bg} ${status.color}`}>
-                          {status.text}
-                        </span>
-                      </div>
+                      <div className="absolute inset-0 bg-white bg-opacity-90"></div>
                       
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-[#586152]">Quantity:</span>
-                          <span className="font-semibold text-[#1a1e1b]">{item.quantity} {item.unit}</span>
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-serif text-[#1a1e1b]">{item.name}</h3>
+                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${status.bg} ${status.color}`}>
+                            {status.text}
+                          </span>
                         </div>
                         
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-[#586152]">Min Stock:</span>
-                          <span className="text-[#586152]">{item.minStock} {item.unit}</span>
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-[#586152]">Quantity:</span>
+                            <span className="font-semibold text-[#1a1e1b]">{item.quantity} {item.unit}</span>
+                          </div>
+                          
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-[#586152]">Min Stock:</span>
+                            <span className="text-[#586152]">{item.minStock} {item.unit}</span>
+                          </div>
+                          
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-[#586152]">Price:</span>
+                            <span className="text-[#586152]">${item.price}/{item.unit}</span>
+                          </div>
+                          
+                          <div className="text-xs text-[#586152] pt-2 border-t border-[#c4c7c3]/20">
+                            Last restocked: {item.lastRestocked}
+                          </div>
                         </div>
                         
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-[#586152]">Price:</span>
-                          <span className="text-[#586152]">${item.price}/{item.unit}</span>
+                        <div className="mt-3 text-xs text-[#bb7336] font-semibold text-center">
+                          Click to update
                         </div>
-                        
-                        <div className="text-xs text-[#586152] pt-2 border-t border-[#c4c7c3]/20">
-                          Last restocked: {item.lastRestocked}
-                        </div>
-                      </div>
-                      
-                      <div className="mt-3 text-xs text-[#bb7336] font-semibold text-center">
-                        Click to update
                       </div>
                     </div>
                   )

@@ -125,7 +125,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1e1b]">
+    <div className="min-h-screen bg-[#f7faf4]">
       <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
           <div className="flex justify-between items-center gap-8">

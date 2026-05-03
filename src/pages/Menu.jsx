@@ -249,13 +249,14 @@ const Menu = () => {
             </div>
           )}
 
-          <footer className="mt-32 pt-16 border-t border-[#c4c7c3]/10 text-center">
+          <footer className="mt-30 pt-16 border-t border-[#c4c7c3]/10 text-center">
             <p className="text-xs tracking-widest uppercase text-[#444844] mb-4">FRESH INGREDIENTS, RIGHT SERVING</p>
-            <p className="text-base bottom-3 md:bottom-3 text-[#586152] max-w-2xl mx-auto italic">
+            <p className="text-base text-[#586152] max-w-2xl mx-auto italic">
               The menu is considering the available stock. Items may become unavailable as orders are processed.
             </p>
           </footer>
         </div>
+        <div className='block md:hidden p-7'></div>
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50">

@@ -13,7 +13,7 @@
           "unit": "kg",
           "price": 2.50,
           "supplier": "Fresh Farm Co.",
-          "image": "/stockImages/tomatoes.jpg",
+          "image": "/menuImages/tomatoes.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 20,
           "category": "vegetables"
@@ -26,7 +26,7 @@
           "unit": "kg",
           "price": 1.80,
           "supplier": "Fresh Farm Co.",
-          "image": "/stockImages/onions.jpg",
+          "image": "/menuImages/oignon1.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 15,
           "category": "vegetables"
@@ -39,7 +39,7 @@
           "unit": "heads",
           "price": 1.20,
           "supplier": "Green Valley",
-          "image": "/stockImages/lettuce.jpg",
+          "image": "/menuImages/lettuce.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 10,
           "category": "vegetables"
@@ -52,7 +52,7 @@
           "unit": "kg",
           "price": 1.50,
           "supplier": "Fresh Farm Co.",
-          "image": "/stockImages/carrots.jpg",
+          "image": "/menuImages/carrots.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 20,
           "category": "vegetables"
@@ -72,7 +72,7 @@
           "unit": "kg",
           "price": 12.00,
           "supplier": "Premium Meats",
-          "image": "/stockImages/chicken-breast.jpg",
+          "image": "/menuImages/chicken-breast.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 10,
           "category": "meat"
@@ -85,7 +85,7 @@
           "unit": "kg",
           "price": 25.00,
           "supplier": "Premium Meats",
-          "image": "/stockImages/beef-steak.jpg",
+          "image": "/menuImages/beef-steak.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 8,
           "category": "meat"
@@ -98,7 +98,7 @@
           "unit": "kg",
           "price": 18.00,
           "supplier": "Premium Meats",
-          "image": "/stockImages/pork-loin.jpg",
+          "image": "/menuImages/pork-loin.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 10,
           "category": "meat"
@@ -111,7 +111,7 @@
           "unit": "kg",
           "price": 35.00,
           "supplier": "Ocean Fresh",
-          "image": "/stockImages/salmon.jpg",
+          "image": "/menuImages/salmon.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 5,
           "category": "meat"
@@ -131,7 +131,7 @@
           "unit": "liters",
           "price": 3.50,
           "supplier": "Dairy Farm",
-          "image": "/stockImages/milk.jpg",
+          "image": "/menuImages/milk.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 20,
           "category": "dairy"
@@ -144,7 +144,7 @@
           "unit": "kg",
           "price": 15.00,
           "supplier": "Dairy Farm",
-          "image": "/stockImages/cheese.jpg",
+          "image": "/menuImages/cheese.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 10,
           "category": "dairy"
@@ -157,7 +157,7 @@
           "unit": "kg",
           "price": 8.00,
           "supplier": "Dairy Farm",
-          "image": "/stockImages/butter.jpg",
+          "image": "/menuImages/butter.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 15,
           "category": "dairy"
@@ -170,7 +170,7 @@
           "unit": "cups",
           "price": 1.50,
           "supplier": "Dairy Farm",
-          "image": "/stockImages/yogurt.jpg",
+          "image": "/menuImages/yogurt.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 20,
           "category": "dairy"
@@ -190,7 +190,7 @@
           "unit": "kg",
           "price": 2.00,
           "supplier": "Global Foods",
-          "image": "/stockImages/rice.jpg",
+          "image": "/menuImages/rice.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 50,
           "category": "dry-goods"
@@ -203,7 +203,7 @@
           "unit": "kg",
           "price": 3.50,
           "supplier": "Global Foods",
-          "image": "/stockImages/pasta.jpg",
+          "image": "/menuImages/pasta.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 30,
           "category": "dry-goods"
@@ -216,7 +216,7 @@
           "unit": "kg",
           "price": 1.80,
           "supplier": "Global Foods",
-          "image": "/stockImages/flour.jpg",
+          "image": "/menuImages/flour.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 40,
           "category": "dry-goods"
@@ -229,7 +229,7 @@
           "unit": "liters",
           "price": 12.00,
           "supplier": "Mediterranean Imports",
-          "image": "/stockImages/olive-oil.jpg",
+          "image": "/menuImages/olive-oil.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 10,
           "category": "dry-goods"
@@ -249,7 +249,7 @@
           "unit": "liters",
           "price": 4.00,
           "supplier": "Fresh Juices Co.",
-          "image": "/stockImages/orange-juice.jpg",
+          "image": "/menuImages/orange-juice.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 15,
           "category": "beverages"
@@ -262,7 +262,7 @@
           "unit": "kg",
           "price": 25.00,
           "supplier": "Coffee Roasters",
-          "image": "/stockImages/coffee-beans.jpg",
+          "image": "/menuImages/coffee-beans.jpg",
           "lastRestocked": "2026-05-02",
           "minStock": 10,
           "category": "beverages"
@@ -275,7 +275,7 @@
           "unit": "bags",
           "price": 0.50,
           "supplier": "Tea Garden",
-          "image": "/stockImages/tea-bags.jpg",
+          "image": "/menuImages/tea-bags.jpg",
           "lastRestocked": "2026-05-01",
           "minStock": 100,
           "category": "beverages"
@@ -288,7 +288,7 @@
           "unit": "bottles",
           "price": 2.00,
           "supplier": "Beverage Co.",
-          "image": "/stockImages/soda.jpg",
+          "image": "/menuImages/soda.jpg",
           "lastRestocked": "2026-05-03",
           "minStock": 50,
           "category": "beverages"

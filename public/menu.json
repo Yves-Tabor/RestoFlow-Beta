@@ -191,7 +191,7 @@
       "name": "Chocolate Soufflé",
       "description": "Dark chocolate soufflé with vanilla ice cream and berry coulis.",
       "price": 14,
-      "image": "/menuImages/chocolate.jpg",
+      "image": "/menuImages/chocolat-souffle.jpg",
       "signature": true,
       "featured": true,
       "ingredients": ["flour", "milk", "butter"]

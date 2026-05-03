@@ -82,7 +82,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-[#f7faf4]">
-      <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-[#c4c7c3]/50">
+      <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
           <div className="flex justify-between items-center gap-8">
             <span className="text-xl font-serif italic text-[#1a1e1b]">RestoFlow</span>
@@ -124,7 +124,7 @@ const Cart = () => {
                       </div>
                       <p className="text-[#586152] text-sm mt-1">{item.description}</p>
                       <div className="flex items-center gap-4 mt-4">
-                        <span className="text-xs font-label-caps text-[#586152]">QTY: {item.quantity}</span>
+                        <span className="text-xs font-label-caps text-[#586152]">QTY:</span>
                         <div className="flex items-center gap-2">
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}

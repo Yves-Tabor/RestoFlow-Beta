@@ -1,7 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
+
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_CART':
+      return action.payload
+    case 'UPDATE_QUANTITY':
+      return state.map(item => 
+        item.id === action.payload.id 
+          ? { ...item, quantity: action.payload.quantity }
+          : item
+      ).filter(item => item.quantity > 0)
+    case 'REMOVE_ITEM':
+      return state.filter(item => item.id !== action.payload.id)
+    case 'CLEAR_CART':
+      return []
+    default:
+      return state
+  }
+}
 
 const Cart = () => {
-  const [cart, setCart] = useState([])
+  const [cart, dispatch] = useReducer(cartReducer, [])
   const [specialInstructions, setSpecialInstructions] = useState('')
   
   useEffect(() => {
@@ -9,22 +28,23 @@ const Cart = () => {
       const savedCart = localStorage.getItem('restoflow-cart')
       if (savedCart) {
         const parsedCart = JSON.parse(savedCart)
-        setCart(parsedCart)
+        dispatch({ type: 'SET_CART', payload: parsedCart })
       }
     }
     
     loadCart()
     
-    const handleStorageChange = () => {
-      loadCart()
+    const handleStorageChange = (e) => {
+      // Only reload if the change came from another tab/window
+      if (e.key === 'restoflow-cart') {
+        loadCart()
+      }
     }
     
     window.addEventListener('storage', handleStorageChange)
-    window.addEventListener('cartUpdated', handleStorageChange)
     
     return () => {
       window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('cartUpdated', handleStorageChange)
     }
   }, [])
   
@@ -37,22 +57,23 @@ const Cart = () => {
   }, [cart])
   
   const updateQuantity = (itemId, newQuantity) => {
-    let newCart
     if (newQuantity <= 0) {
-      newCart = cart.filter(item => item.id !== itemId)
+      dispatch({ type: 'REMOVE_ITEM', payload: { id: itemId } })
     } else {
-      newCart = cart.map(item => 
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
+      dispatch({ type: 'UPDATE_QUANTITY', payload: { id: itemId, quantity: newQuantity } })
     }
-    setCart(newCart)
-    window.dispatchEvent(new Event('cartUpdated'))
+    // Dispatch event after a small delay to ensure localStorage is updated first
+    setTimeout(() => {
+      window.dispatchEvent(new Event('cartUpdated'))
+    }, 10)
   }
   
   const removeItem = (itemId) => {
-    const newCart = cart.filter(item => item.id !== itemId)
-    setCart(newCart)
-    window.dispatchEvent(new Event('cartUpdated'))
+    dispatch({ type: 'REMOVE_ITEM', payload: { id: itemId } })
+    // Dispatch event after a small delay to ensure localStorage is updated first
+    setTimeout(() => {
+      window.dispatchEvent(new Event('cartUpdated'))
+    }, 10)
   }
   
   const calculateSubtotal = () => {
@@ -130,14 +151,14 @@ const Cart = () => {
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="w-6 h-6 rounded-full border border-[#c4c7c3] flex items-center justify-center hover:bg-[#1a1e1b] hover:text-white transition-colors"
                           >
-                            <span className="material-symbols-outlined text-sm">-</span>
+                            <span className="text-sm">-</span>
                           </button>
                           <span className="text-sm w-8 text-center">{item.quantity}</span>
                           <button 
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="w-6 h-6 rounded-full border border-[#c4c7c3] flex items-center justify-center hover:bg-[#1a1e1b] hover:text-white transition-colors"
                           >
-                            <span className="material-symbols-outlined text-sm">+</span>
+                            <span className="text-sm">+</span>
                           </button>
                         </div>
                         <button 

@@ -266,10 +266,9 @@ const Menu = () => {
                 activeCategory === category.id ? 'text-[#1a1e1b] font-semibold' : 'text-[#586152]'
               }`}
             >
-              <span className="material-symbols-outlined">{category.icon}</span>
               <span className="text-[10px] uppercase tracking-tighter">{category.name}</span>
               {itemCount > 0 && (
-                <span className="text-xs bg-[#bb7336] text-white px-1.5 py-0.5 rounded-full text-[8px]">
+                <span className="text-xs bg-[#bb7336] text-white px-2 py-0.5 rounded-full text-[8px]">
                   {itemCount}
                 </span>
               )}

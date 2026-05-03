@@ -1,0 +1,277 @@
+{
+  "restaurant": {
+    "name": "RestoFlow",
+    "tagline": "Culinary Excellence Redefined",
+    "description": "Experience the art of fine dining with our carefully curated menu"
+  },
+  "categories": [
+    {
+      "id": "starters",
+      "name": "Starters",
+      "description": "A celebration of seasonal harvest and delicate textures",
+      "icon": "eco",
+      "items": []
+    },
+    {
+      "id": "mains",
+      "name": "Mains",
+      "description": "Signature dishes crafted with passion and precision",
+      "icon": "restaurant",
+      "items": []
+    },
+    {
+      "id": "sides",
+      "name": "Sides",
+      "description": "Perfect accompaniments to complement your meal",
+      "icon": "nutrition",
+      "items": []
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "description": "Sweet endings to memorable dining experiences",
+      "icon": "icecream",
+      "items": []
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "description": "Carefully selected drinks to enhance your meal",
+      "icon": "wine_bar",
+      "items": []
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "heirloom-tomato",
+      "category": "starters",
+      "name": "Heirloom Tomato & Basil Emulsion",
+      "description": "Sun-ripened heritage varieties, clear tomato essence, cold-pressed olive oil, and gathered wild herbs.",
+      "price": 24,
+      "image": "/menuImages/heirloom-tomato.jpg",
+      "signature": true,
+      "featured": true,
+      "ingredients": ["tomatoes", "olive-oil", "lettuce"]
+    },
+    {
+      "id": "cultured-burrata",
+      "category": "starters",
+      "name": "Cultured Burrata",
+      "description": "Wildflower honey, roasted walnuts, and smoked sea salt.",
+      "price": 21,
+      "image": "/menuImages/cultured-burrata.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["cheese", "olive-oil"]
+    },
+    {
+      "id": "hand-dived-scallops",
+      "category": "starters",
+      "name": "Hand-Dived Scallops",
+      "description": "Yuzu vinaigrette, radishes, and Shiso leaves.",
+      "price": 28,
+      "image": "/menuImages/salmon.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["salmon"]
+    },
+    {
+      "id": "Atlantic-salmon",
+      "category": "mains",
+      "name": "Atlantic Salmon",
+      "description": "Pan-seared salmon with lemon butter sauce, seasonal vegetables, and wild rice.",
+      "price": 38,
+      "image": "/menuImages/atlantic-salmon.jpg",
+      "signature": true,
+      "featured": true,
+      "ingredients": ["salmon", "butter", "carrots", "rice"]
+    },
+    {
+      "id": "beef-tenderloin",
+      "category": "mains",
+      "name": "Beef Tenderloin",
+      "description": "Grass-fed beef tenderloin with red wine reduction, roasted potatoes, and asparagus.",
+      "price": 48,
+      "image": "/menuImages/beef-tenderloin.jpg",
+      "signature": true,
+      "featured": false,
+      "ingredients": ["beef-steak", "butter", "carrots"]
+    },
+    {
+      "id": "chicken-supreme",
+      "category": "mains",
+      "name": "Chicken Supreme",
+      "description": "Free-range chicken breast with mushroom cream sauce, truffle mashed potatoes.",
+      "price": 32,
+      "image": "/menuImages/chicken-supreme.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["chicken-breast", "butter", "flour"]
+    },
+    {
+      "id": "pork-tenderloin",
+      "category": "mains",
+      "name": "Pork Tenderloin",
+      "description": "Herb-crusted pork loin with apple compote, roasted root vegetables.",
+      "price": 35,
+      "image": "/menuImages/pork-loin.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["pork-loin", "carrots"]
+    },
+    {
+      "id": "common-pasta",
+      "category": "mains",
+      "name": "Common Pasta",
+      "description": "Handmade pasta with tomato sauce, basil, and parmesan.",
+      "price": 22,
+      "image": "/menuImages/pasta.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["pasta", "tomatoes", "cheese"]
+    },
+    {
+      "id": "garlic-bread",
+      "category": "sides",
+      "name": "Garlic Bread",
+      "description": "Freshly baked sourdough with garlic butter and herbs.",
+      "price": 8,
+      "image": "/menuImages/garlic-bread.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["flour", "butter"]
+    },
+    {
+      "id": "caesar-salad",
+      "category": "sides",
+      "name": "Caesar Salad",
+      "description": "Romaine lettuce, parmesan, croutons, and house-made Caesar dressing.",
+      "price": 12,
+      "image": "/menuImages/caesar-salad.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["lettuce", "cheese", "flour"]
+    },
+    {
+      "id": "roasted-vegetables",
+      "category": "sides",
+      "name": "Seasonal Vegetables",
+      "description": "Roasted seasonal vegetables with olive oil and herbs.",
+      "price": 10,
+      "image": "/menuImages/roasted-vegetables.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["carrots", "onions", "olive-oil"]
+    },
+    {
+      "id": "truffle-fries",
+      "category": "sides",
+      "name": "Truffle Fries",
+      "description": "Crispy fries with truffle oil and parmesan.",
+      "price": 12,
+      "image": "/menuImages/chips.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["potatoes", "olive-oil", "cheese"]
+    },
+    {
+      "id": "truffle-pasta",
+      "category": "starters",
+      "name": "Truffle Pasta",
+      "description": "Handmade pasta with black truffle, parmesan, and brown butter.",
+      "price": 28,
+      "image": "/menuImages/truffle-pasta.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["pasta", "cheese", "butter"]
+    },
+    {
+      "id": "chocolate-souffle",
+      "category": "desserts",
+      "name": "Chocolate Soufflé",
+      "description": "Dark chocolate soufflé with vanilla ice cream and berry coulis.",
+      "price": 14,
+      "image": "/menuImages/chocolat-souffle.jpg",
+      "signature": true,
+      "featured": true,
+      "ingredients": ["flour", "milk", "butter"]
+    },
+    {
+      "id": "creme-brulee",
+      "category": "desserts",
+      "name": "Crème Brûlée",
+      "description": "Classic French vanilla custard with caramelized sugar top.",
+      "price": 12,
+      "image": "/menuImages/creme-brulee.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["milk", "butter"]
+    },
+    {
+      "id": "tiramisu",
+      "category": "desserts",
+      "name": "Tiramisu",
+      "description": "Italian classic with espresso-soaked ladyfingers and mascarpone.",
+      "price": 11,
+      "image": "/menuImages/tiramisu.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["flour", "milk"]
+    },
+    {
+      "id": "house-wine",
+      "category": "beverages",
+      "name": "House Wine",
+      "description": "Carefully selected red and white wines by the glass.",
+      "price": 12,
+      "image": "/menuImages/house-wine.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": []
+    },
+    {
+      "id": "fresh-soda",
+      "category": "beverages",
+      "name": "Fresh Soda",
+      "description": "Refreshing homemade soda with natural flavors.",
+      "price": 6,
+      "image": "/menuImages/soda.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["soda"]
+    },
+    {
+      "id": "fresh-milk",
+      "category": "beverages",
+      "name": "Fresh Milk",
+      "description": "Fresh milk with natural flavors.",
+      "price": 2,
+      "image": "/menuImages/milk.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["milk"]
+    },
+    {
+      "id": "fresh-juice",
+      "category": "beverages",
+      "name": "Fresh Juices",
+      "description": "Freshly squeezed orange, apple, and vegetable juices.",
+      "price": 8,
+      "image": "/menuImages/orange-juice.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["orange-juice"]
+    },
+    {
+      "id": "yogurt",
+      "category": "beverages",
+      "name": "Yogurt",
+      "description": "Refreshing homemade yogurt with natural flavors.",
+      "price": 5,
+      "image": "/menuImages/yogurt.jpg",
+      "signature": false,
+      "featured": false,
+      "ingredients": ["yogurt"]
+    }
+  ]
+}

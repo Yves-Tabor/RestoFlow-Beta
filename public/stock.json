@@ -1,0 +1,305 @@
+{
+  "categories": [
+    {
+      "id": "vegetables",
+      "name": "Vegetables",
+      "description": "Fresh vegetables for kitchen",
+      "items": [
+        {
+          "id": "tomatoes",
+          "name": "Tomatoes",
+          "description": "Fresh red tomatoes",
+          "quantity": 50,
+          "unit": "kg",
+          "price": 2.50,
+          "supplier": "Fresh Farm Co.",
+          "image": "/menuImages/tomatoes.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 20,
+          "category": "vegetables"
+        },
+        {
+          "id": "onions",
+          "name": "Onions",
+          "description": "Yellow onions",
+          "quantity": 30,
+          "unit": "kg",
+          "price": 1.80,
+          "supplier": "Fresh Farm Co.",
+          "image": "/menuImages/oignon1.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 15,
+          "category": "vegetables"
+        },
+        {
+          "id": "lettuce",
+          "name": "Lettuce",
+          "description": "Fresh green lettuce",
+          "quantity": 25,
+          "unit": "heads",
+          "price": 1.20,
+          "supplier": "Green Valley",
+          "image": "/menuImages/lettuce.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 10,
+          "category": "vegetables"
+        },
+        {
+          "id": "carrots",
+          "name": "Carrots",
+          "description": "Fresh orange carrots",
+          "quantity": 40,
+          "unit": "kg",
+          "price": 1.50,
+          "supplier": "Fresh Farm Co.",
+          "image": "/menuImages/carrots.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 20,
+          "category": "vegetables"
+        }
+      ]
+    },
+    {
+      "id": "meat",
+      "name": "Meat & Poultry",
+      "description": "Fresh meat and poultry products",
+      "items": [
+        {
+          "id": "chicken-breast",
+          "name": "Chicken Breast",
+          "description": "Boneless chicken breast",
+          "quantity": 20,
+          "unit": "kg",
+          "price": 12.00,
+          "supplier": "Premium Meats",
+          "image": "/menuImages/chicken-breast.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 10,
+          "category": "meat"
+        },
+        {
+          "id": "beef-steak",
+          "name": "Beef Steak",
+          "description": "Premium beef steak",
+          "quantity": 15,
+          "unit": "kg",
+          "price": 25.00,
+          "supplier": "Premium Meats",
+          "image": "/menuImages/beef-steak.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 8,
+          "category": "meat"
+        },
+        {
+          "id": "pork-loin",
+          "name": "Pork Loin",
+          "description": "Fresh pork loin",
+          "quantity": 18,
+          "unit": "kg",
+          "price": 18.00,
+          "supplier": "Premium Meats",
+          "image": "/menuImages/pork-loin.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 10,
+          "category": "meat"
+        },
+        {
+          "id": "salmon",
+          "name": "Salmon",
+          "description": "Fresh salmon fillet",
+          "quantity": 12,
+          "unit": "kg",
+          "price": 35.00,
+          "supplier": "Ocean Fresh",
+          "image": "/menuImages/salmon.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 5,
+          "category": "meat"
+        }
+      ]
+    },
+    {
+      "id": "dairy",
+      "name": "Dairy Products",
+      "description": "Fresh dairy items",
+      "items": [
+        {
+          "id": "milk",
+          "name": "Milk",
+          "description": "Fresh whole milk",
+          "quantity": 40,
+          "unit": "liters",
+          "price": 3.50,
+          "supplier": "Dairy Farm",
+          "image": "/menuImages/milk.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 20,
+          "category": "dairy"
+        },
+        {
+          "id": "cheese",
+          "name": "Cheese",
+          "description": "Cheddar cheese blocks",
+          "quantity": 25,
+          "unit": "kg",
+          "price": 15.00,
+          "supplier": "Dairy Farm",
+          "image": "/menuImages/cheese.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 10,
+          "category": "dairy"
+        },
+        {
+          "id": "butter",
+          "name": "Butter",
+          "description": "Salted butter",
+          "quantity": 30,
+          "unit": "kg",
+          "price": 8.00,
+          "supplier": "Dairy Farm",
+          "image": "/menuImages/butter.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 15,
+          "category": "dairy"
+        },
+        {
+          "id": "yogurt",
+          "name": "Yogurt",
+          "description": "Plain yogurt",
+          "quantity": 35,
+          "unit": "cups",
+          "price": 1.50,
+          "supplier": "Dairy Farm",
+          "image": "/menuImages/yogurt.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 20,
+          "category": "dairy"
+        }
+      ]
+    },
+    {
+      "id": "dry-goods",
+      "name": "Dry Goods",
+      "description": "Pantry staples and dry ingredients",
+      "items": [
+        {
+          "id": "rice",
+          "name": "Rice",
+          "description": "Long grain white rice",
+          "quantity": 100,
+          "unit": "kg",
+          "price": 2.00,
+          "supplier": "Global Foods",
+          "image": "/menuImages/rice.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 50,
+          "category": "dry-goods"
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Italian pasta",
+          "quantity": 60,
+          "unit": "kg",
+          "price": 3.50,
+          "supplier": "Global Foods",
+          "image": "/menuImages/pasta.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 30,
+          "category": "dry-goods"
+        },
+        {
+          "id": "flour",
+          "name": "Flour",
+          "description": "All-purpose flour",
+          "quantity": 80,
+          "unit": "kg",
+          "price": 1.80,
+          "supplier": "Global Foods",
+          "image": "/menuImages/flour.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 40,
+          "category": "dry-goods"
+        },
+        {
+          "id": "olive-oil",
+          "name": "Olive Oil",
+          "description": "Extra virgin olive oil",
+          "quantity": 25,
+          "unit": "liters",
+          "price": 12.00,
+          "supplier": "Mediterranean Imports",
+          "image": "/menuImages/olive-oil.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 10,
+          "category": "dry-goods"
+        }
+      ]
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "description": "Drinks and liquids",
+      "items": [
+        {
+          "id": "orange-juice",
+          "name": "Orange Juice",
+          "description": "Fresh orange juice",
+          "quantity": 30,
+          "unit": "liters",
+          "price": 4.00,
+          "supplier": "Fresh Juices Co.",
+          "image": "/menuImages/orange-juice.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 15,
+          "category": "beverages"
+        },
+        {
+          "id": "coffee-beans",
+          "name": "Coffee Beans",
+          "description": "Premium coffee beans",
+          "quantity": 20,
+          "unit": "kg",
+          "price": 25.00,
+          "supplier": "Coffee Roasters",
+          "image": "/menuImages/coffee-beans.jpg",
+          "lastRestocked": "2026-05-02",
+          "minStock": 10,
+          "category": "beverages"
+        },
+        {
+          "id": "tea-bags",
+          "name": "Tea Bags",
+          "description": "Assorted tea bags",
+          "quantity": 200,
+          "unit": "bags",
+          "price": 0.50,
+          "supplier": "Tea Garden",
+          "image": "/menuImages/tea-bags.jpg",
+          "lastRestocked": "2026-05-01",
+          "minStock": 100,
+          "category": "beverages"
+        },
+        {
+          "id": "soda",
+          "name": "Soda",
+          "description": "Assorted soft drinks",
+          "quantity": 100,
+          "unit": "bottles",
+          "price": 2.00,
+          "supplier": "Beverage Co.",
+          "image": "/menuImages/soda.jpg",
+          "lastRestocked": "2026-05-03",
+          "minStock": 50,
+          "category": "beverages"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "totalItems": 24,
+    "totalValue": 894.50,
+    "lowStockItems": 3,
+    "lastUpdated": "2026-05-03T12:00:00Z"
+  }
+}

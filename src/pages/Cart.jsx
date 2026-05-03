@@ -35,7 +35,6 @@ const Cart = () => {
     loadCart()
     
     const handleStorageChange = (e) => {
-      // Only reload if the change came from another tab/window
       if (e.key === 'restoflow-cart') {
         loadCart()
       }
@@ -97,16 +96,13 @@ const Cart = () => {
       timestamp: new Date().toISOString()
     }
     
-    // Save order to localStorage
     const existingOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
     const updatedOrders = [order, ...existingOrders]
     localStorage.setItem('restoflow-orders', JSON.stringify(updatedOrders))
     
-    // Reset cart
     dispatch({ type: 'CLEAR_CART' })
     setSpecialInstructions('')
     
-    // Redirect to tracking page
     window.location.href = '/top/cart/track'
   }
   
@@ -118,7 +114,7 @@ const Cart = () => {
           <h2 className="text-2xl font-serif text-[#1a1e1b] mb-2">Your cart is empty</h2>
           <p className="text-[#586152] mb-8">Add some delicious items from our menu</p>
           <a 
-            href="/top/menu" 
+            href="menu" 
             className="inline-block px-6 py-3 bg-[#bb7336] text-white font-label-caps tracking-widest uppercase text-xs hover:opacity-90 transition-opacity"
           >
             Browse Menu

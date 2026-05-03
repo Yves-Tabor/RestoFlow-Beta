@@ -34,7 +34,6 @@ const Menu = () => {
   }, [])
 
   useEffect(() => {
-    // Load menu data and organize by categories
     const loadMenuData = () => {
       const savedMenu = localStorage.getItem('restoflow-menu')
       let menuDataToUse = menuData
@@ -44,7 +43,6 @@ const Menu = () => {
         menuDataToUse = parsedMenu
       }
       
-      // Organize menu items by categories
       const organizedMenu = {}
       menuDataToUse.categories.forEach(category => {
         organizedMenu[category.id] = []
@@ -61,7 +59,6 @@ const Menu = () => {
     
     loadMenuData()
     
-    // Listen for menu updates from stock changes
     const handleMenuUpdated = () => {
       loadMenuData()
     }
@@ -254,7 +251,7 @@ const Menu = () => {
 
           <footer className="mt-32 pt-16 border-t border-[#c4c7c3]/10 text-center">
             <p className="text-xs tracking-widest uppercase text-[#444844] mb-4">FRESH INGREDIENTS, RIGHT SERVING</p>
-            <p className="text-base text-[#586152] max-w-2xl mx-auto italic">
+            <p className="text-base bottom-3 md:bottom-3 text-[#586152] max-w-2xl mx-auto italic">
               The menu is considering the available stock. Items may become unavailable as orders are processed.
             </p>
           </footer>

@@ -14,4 +14,11 @@ export default defineConfig({
       ],
     },
   },
+  // Handle client-side routing
+  preview: {
+    port: 3000,
+  },
+  server: {
+    port: 3000,
+  },
 })

@@ -147,7 +147,6 @@ const Stock = () => {
     return (
       <div className="min-h-screen bg-[#f7faf4] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#bb7336] mx-auto mb-4"></div>
           <p className="text-[#586152]">Loading stock data...</p>
         </div>
       </div>
@@ -168,18 +167,11 @@ const Stock = () => {
       </header>
 
       <main className="pt-32 pb-40 px-4 max-w-7xl mx-auto min-h-screen">
-        <section className="mb-12 text-center">
-          <h1 className="text-5xl font-serif text-[#1a1e1b] mb-4 italic">Stock Management</h1>
-          <p className="text-lg text-[#586152] max-w-lg mx-auto">
-            Click on any item to update its stock quantity. Items with 0 quantity will be disabled in the menu.
-          </p>
-        </section>
-
         <div className="space-y-8">
           {stockData?.categories?.map((category) => (
-            <div key={category.id} className="bg-[#ebefe9] rounded-lg p-6">
+            <div key={category.id} className="bg-gray-300 rounded-md p-6">
               <h2 className="text-2xl font-serif text-[#1a1e1b] mb-4">{category.name}</h2>
-              <p className="text-[#586152] mb-6">{category.description}</p>
+              <p className="text-black gray-700 mb-6 font-serif text-sm">{category.description}</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {category.items.map((item) => {

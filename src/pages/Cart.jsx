@@ -114,7 +114,7 @@ const Cart = () => {
           <h2 className="text-2xl font-serif text-[#1a1e1b] mb-2">Your cart is empty</h2>
           <p className="text-[#586152] mb-8">Add some delicious items from our menu</p>
           <a 
-            href="menu" 
+            href="/top/menu" 
             className="inline-block px-6 py-3 bg-[#bb7336] text-white font-label-caps tracking-widest uppercase text-xs hover:opacity-90 transition-opacity"
           >
             Browse Menu
@@ -125,7 +125,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7faf4]">
+    <div className="min-h-screen bg-[#1a1e1b]">
       <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
           <div className="flex justify-between items-center gap-8">

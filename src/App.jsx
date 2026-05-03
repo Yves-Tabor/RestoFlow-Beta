@@ -4,6 +4,7 @@ import TopLayout from './components/TopLayout'
 import Home from './pages/Home'
 import Menu from './pages/Menu'
 import Cart from './pages/Cart'
+import Track from './pages/Track'
 import Stock from './pages/Stock'
 import Analytics from './pages/Analytics'
 import NotFound from './pages/NotFound'
@@ -59,7 +60,10 @@ const router = createBrowserRouter(
       <Route path='top' element={<TopLayout/>}>
         <Route index element={<Home/>} errorElement={<Error/>} loader={stockLoader} />
         <Route path="menu" element={<Menu/>} errorElement={<Error/>} loader={menuLoader} />
-        <Route path="cart" element={<Cart/>} errorElement={<Error/>}/>
+        <Route path="cart" element={<Cart/>} errorElement={<Error/>}>
+          <Route path='summary'/>
+          <Route path='track' element={<Track/>} errorElement={<Error/>}/>
+        </Route>
         <Route path="stock" element={<Stock/>} errorElement={<Error/>} loader={stockLoader} />
         <Route path="analytics" element={<Analytics/>} errorElement={<Error/>} />
       </Route>

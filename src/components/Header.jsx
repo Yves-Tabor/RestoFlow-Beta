@@ -93,14 +93,6 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
-                            to="/top/orders" 
-                            onClick={closeSidebar}
-                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
-                        >
-                            <span>Orders</span>
-                        </NavLink>
-
-                        <NavLink 
                             to="/top/stock" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}

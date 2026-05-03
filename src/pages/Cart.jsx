@@ -83,6 +83,33 @@ const Cart = () => {
   const serviceCharge = calculateSubtotal() * 0.125
   const total = calculateSubtotal() + serviceCharge
   
+  const confirmOrder = () => {
+    if (cart.length === 0) return
+    
+    const order = {
+      id: Date.now().toString(),
+      items: cart,
+      subtotal: calculateSubtotal(),
+      serviceCharge: serviceCharge,
+      total: total,
+      specialInstructions: specialInstructions,
+      status: 'confirmed',
+      timestamp: new Date().toISOString()
+    }
+    
+    // Save order to localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
+    const updatedOrders = [order, ...existingOrders]
+    localStorage.setItem('restoflow-orders', JSON.stringify(updatedOrders))
+    
+    // Reset cart
+    dispatch({ type: 'CLEAR_CART' })
+    setSpecialInstructions('')
+    
+    // Redirect to tracking page
+    window.location.href = '/top/cart/track'
+  }
+  
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-[#f7faf4] flex items-center justify-center">
@@ -210,7 +237,10 @@ const Cart = () => {
                   <span className="text-4xl font-serif text-[#1a1e1b]">${total.toFixed(2)}</span>
                 </div>
               </div>
-              <button className="w-full mt-10 py-5 bg-[#bb7336] text-white font-label-caps tracking-widest uppercase text-xs hover:opacity-90 transition-opacity">
+              <button 
+                onClick={confirmOrder}
+                className="w-full mt-10 py-5 bg-[#bb7336] text-white font-label-caps tracking-widest uppercase text-xs hover:opacity-90 transition-opacity"
+              >
                 Confirm Order
               </button>
               <div className="flex flex-col items-center justify-center">
@@ -227,7 +257,6 @@ const Cart = () => {
       <footer className="fixed bottom-0 left-0 right-0 bg-[#f7faf4]/80 backdrop-blur-xl py-8 px-4 border-t border-[#c4c7c3]/50">
         <div className="max-w-xl mx-auto">
           <div className="flex justify-between items-center mb-4 relative">
-       
             <div className="absolute top-1/2 left-0 right-0 h-px bg-[#c4c7c3] -z-10"></div>
 
             <div className="absolute top-1/2 left-0 w-2/3 h-px bg-[#bb7336] -z-10"></div>

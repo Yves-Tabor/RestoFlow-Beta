@@ -9,31 +9,36 @@
       "id": "starters",
       "name": "Starters",
       "description": "A celebration of seasonal harvest and delicate textures",
-      "icon": "eco"
+      "icon": "eco",
+      "items": []
     },
     {
       "id": "mains",
       "name": "Mains",
       "description": "Signature dishes crafted with passion and precision",
-      "icon": "restaurant"
+      "icon": "restaurant",
+      "items": []
     },
     {
       "id": "sides",
       "name": "Sides",
       "description": "Perfect accompaniments to complement your meal",
-      "icon": "nutrition"
+      "icon": "nutrition",
+      "items": []
     },
     {
       "id": "desserts",
       "name": "Desserts",
       "description": "Sweet endings to memorable dining experiences",
-      "icon": "icecream"
+      "icon": "icecream",
+      "items": []
     },
     {
       "id": "beverages",
       "name": "Beverages",
       "description": "Carefully selected drinks to enhance your meal",
-      "icon": "wine_bar"
+      "icon": "wine_bar",
+      "items": []
     }
   ],
   "menuItems": [
@@ -45,7 +50,8 @@
       "price": 24,
       "image": "/menuImages/heirloom-tomato.jpg",
       "signature": true,
-      "featured": true
+      "featured": true,
+      "ingredients": ["tomatoes", "olive-oil", "lettuce"]
     },
     {
       "id": "cultured-burrata",
@@ -55,7 +61,8 @@
       "price": 21,
       "image": "/menuImages/cultured-burrata.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["cheese", "olive-oil"]
     },
     {
       "id": "hand-dived-scallops",
@@ -65,7 +72,8 @@
       "price": 28,
       "image": "/menuImages/salmon.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["salmon"]
     },
     {
       "id": "Atlantic-salmon",
@@ -75,7 +83,8 @@
       "price": 38,
       "image": "/menuImages/atlantic-salmon.jpg",
       "signature": true,
-      "featured": true
+      "featured": true,
+      "ingredients": ["salmon", "butter", "carrots", "rice"]
     },
     {
       "id": "beef-tenderloin",
@@ -85,7 +94,8 @@
       "price": 48,
       "image": "/menuImages/beef-tenderloin.jpg",
       "signature": true,
-      "featured": false
+      "featured": false,
+      "ingredients": ["beef-steak", "butter", "carrots"]
     },
     {
       "id": "chicken-supreme",
@@ -95,7 +105,8 @@
       "price": 32,
       "image": "/menuImages/chicken-supreme.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["chicken-breast", "butter", "flour"]
     },
     {
       "id": "pork-tenderloin",
@@ -105,7 +116,8 @@
       "price": 35,
       "image": "/menuImages/pork-loin.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["pork-loin", "carrots"]
     },
     {
       "id": "common-pasta",
@@ -115,7 +127,8 @@
       "price": 22,
       "image": "/menuImages/pasta.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["pasta", "tomatoes", "cheese"]
     },
     {
       "id": "garlic-bread",
@@ -125,7 +138,8 @@
       "price": 8,
       "image": "/menuImages/garlic-bread.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["flour", "butter"]
     },
     {
       "id": "caesar-salad",
@@ -135,7 +149,8 @@
       "price": 12,
       "image": "/menuImages/caesar-salad.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["lettuce", "cheese", "flour"]
     },
     {
       "id": "roasted-vegetables",
@@ -145,7 +160,8 @@
       "price": 10,
       "image": "/menuImages/roasted-vegetables.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["carrots", "onions", "olive-oil"]
     },
     {
       "id": "truffle-fries",
@@ -155,7 +171,8 @@
       "price": 12,
       "image": "/menuImages/chips.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["potatoes", "olive-oil", "cheese"]
     },
     {
       "id": "truffle-pasta",
@@ -165,7 +182,8 @@
       "price": 28,
       "image": "/menuImages/truffle-pasta.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["pasta", "cheese", "butter"]
     },
     {
       "id": "chocolate-souffle",
@@ -175,7 +193,8 @@
       "price": 14,
       "image": "/menuImages/chocolate.jpg",
       "signature": true,
-      "featured": true
+      "featured": true,
+      "ingredients": ["flour", "milk", "butter"]
     },
     {
       "id": "creme-brulee",
@@ -185,7 +204,8 @@
       "price": 12,
       "image": "/menuImages/creme-brulee.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["milk", "butter"]
     },
     {
       "id": "tiramisu",
@@ -195,7 +215,8 @@
       "price": 11,
       "image": "/menuImages/tiramisu.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["flour", "milk"]
     },
     {
       "id": "house-wine",
@@ -205,7 +226,8 @@
       "price": 12,
       "image": "/menuImages/house-wine.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": []
     },
     {
       "id": "fresh-soda",
@@ -215,7 +237,8 @@
       "price": 6,
       "image": "/menuImages/soda.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["soda"]
     },
     {
       "id": "fresh-milk",
@@ -225,7 +248,8 @@
       "price": 2,
       "image": "/menuImages/milk.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["milk"]
     },
     {
       "id": "fresh-juice",
@@ -235,7 +259,8 @@
       "price": 8,
       "image": "/menuImages/orange-juice.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["orange-juice"]
     },
     {
       "id": "yogurt",
@@ -245,7 +270,8 @@
       "price": 5,
       "image": "/menuImages/yogurt.jpg",
       "signature": false,
-      "featured": false
+      "featured": false,
+      "ingredients": ["yogurt"]
     }
   ]
 }

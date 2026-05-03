@@ -4,27 +4,10 @@ import { useLoaderData } from 'react-router-dom'
 const Menu = () => {
   const [cart, setCart] = useState([])
   const [activeCategory, setActiveCategory] = useState('starters')
-  const [availableItems, setAvailableItems] = useState([])
+  const [availableItems, setAvailableItems] = useState({})
   const [showPopup, setShowPopup] = useState(false)
   const [lastAddedItem, setLastAddedItem] = useState(null)
   const menuData = useLoaderData()
-
-  const getImageForMenuItem = (itemId) => {
-    const imageMap = {
-      'heirloom-tomato': 'tomatoes',
-      'cultured-burrata': 'cheese',
-      'caesar-salad': 'lettuce',
-      'atlantic-salmon': 'salmon',
-      'beef-tenderloin': 'beef-steak',
-      'chicken-supreme': 'chicken-breast',
-      'truffle-pasta': 'pasta',
-      'garlic-bread': 'garlic-bread',
-      'roasted-vegetables': 'carrots',
-      'orange-juice': 'orange-juice',
-      'house-wine': 'coffee-beans'
-    }
-    return imageMap[itemId] || 'chips'
-  }
 
   useEffect(() => {
     const loadCart = () => {
@@ -51,71 +34,52 @@ const Menu = () => {
   }, [])
 
   useEffect(() => {
+    // Load menu data and organize by categories
+    const loadMenuData = () => {
+      const savedMenu = localStorage.getItem('restoflow-menu')
+      let menuDataToUse = menuData
+      
+      if (savedMenu) {
+        const parsedMenu = JSON.parse(savedMenu)
+        menuDataToUse = parsedMenu
+      }
+      
+      // Organize menu items by categories
+      const organizedMenu = {}
+      menuDataToUse.categories.forEach(category => {
+        organizedMenu[category.id] = []
+      })
+      
+      menuDataToUse.menuItems.forEach(item => {
+        if (organizedMenu[item.category]) {
+          organizedMenu[item.category].push(item)
+        }
+      })
+      
+      setAvailableItems(organizedMenu)
+    }
+    
+    loadMenuData()
+    
+    // Listen for menu updates from stock changes
+    const handleMenuUpdated = () => {
+      loadMenuData()
+    }
+    
+    window.addEventListener('menuUpdated', handleMenuUpdated)
+    
+    return () => {
+      window.removeEventListener('menuUpdated', handleMenuUpdated)
+    }
+  }, [menuData])
+
+  useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('restoflow-cart', JSON.stringify(cart))
     }
   }, [cart])
 
-  useEffect(() => {
-    if (!menuData || !menuData.menuItems) return
-
-    const loadStockAndProcess = async () => {
-      const stockResponse = await fetch('/stock.json')
-      const stockData = await stockResponse.json()
-      const stockItems = stockData.categories.flatMap(cat => cat.items)
-      const stockMap = new Map(stockItems.map(item => [item.id, item]))
-
-      const processedItems = menuData.menuItems.map(item => {
-        let canMake = Infinity
-        let ingredientCost = 0
-        let hasAllIngredients = true
-
-        if (item.ingredients && item.ingredients.length === 0 && item.fixedPrice) {
-          return {
-            ...item,
-            price: item.fixedPrice,
-            canMake: 999,
-            available: true,
-            ingredientCost: 0,
-            profitMargin: 100
-          }
-        }
-
-        if (item.ingredients) {
-          item.ingredients.forEach(ing => {
-            const stockItem = stockMap.get(ing.id)
-            if (stockItem) {
-              const portionsPossible = Math.floor(stockItem.quantity / ing.quantity)
-              canMake = Math.min(canMake, portionsPossible)
-              ingredientCost += stockItem.price * ing.quantity
-            } else {
-              hasAllIngredients = false
-              canMake = 0
-            }
-          })
-        }
-
-        const price = item.price || Math.ceil(ingredientCost * 3)
-        const profitMargin = ingredientCost > 0 ? ((price - ingredientCost) / price * 100) : 0
-
-        return {
-          ...item,
-          price,
-          canMake,
-          available: hasAllIngredients && canMake > 0,
-          ingredientCost: Math.round(ingredientCost * 100) / 100,
-          profitMargin: Math.round(profitMargin),
-          image: item.image
-        }
-      })
-
-      setAvailableItems(processedItems)
-    }
-
-    loadStockAndProcess()
-  }, [menuData])
-
-  if (!menuData || availableItems.length === 0) {
+  if (!menuData || Object.keys(availableItems).length === 0) {
     return (
       <div className="flex h-screen bg-[#f7faf4] flex items-center justify-center">
         <div className="text-[#1a1e1b] text-lg">Loading menu...</div>
@@ -127,13 +91,16 @@ const Menu = () => {
     { id: 'starters', name: 'Starters', icon: 'eco' },
     { id: 'mains', name: 'Mains', icon: 'restaurant' },
     { id: 'sides', name: 'Sides', icon: 'nutrition' },
+    { id: 'desserts', name: 'Desserts', icon: 'icecream' },
     { id: 'beverages', name: 'Beverages', icon: 'wine_bar' }
   ]
 
-  const activeItems = availableItems.filter(item => item.category === activeCategory && item.available)
+  const activeItems = availableItems[activeCategory] || []
   const currentCategory = categories.find(cat => cat.id === activeCategory)
 
   const addToCart = (item) => {
+    if (item.disabled) return
+    
     const existingItem = cart.find(cartItem => cartItem.id === item.id)
     let newCart
     if (existingItem) {
@@ -178,8 +145,8 @@ const Menu = () => {
             </button> 
             <div className="hidden md:flex items-center gap-2">
               {categories.map((category) => {
-                const categoryItems = availableItems.filter(item => item.category === category.id && item.available)
-                const itemCount = categoryItems.length
+                const categoryItems = availableItems[category.id] || []
+                const availableCount = categoryItems.filter(item => !item.disabled).length
                 
                 return (
                   <button
@@ -192,9 +159,9 @@ const Menu = () => {
                     }`}
                   >
                     <span>{category.name}</span>
-                    {itemCount > 0 && (
+                    {availableCount > 0 && (
                       <span className="bg-[#bb7336] text-white px-2 py-0.5 rounded-full text-xs">
-                        {itemCount}
+                        {availableCount}
                       </span>
                     )}
                   </button>
@@ -221,7 +188,7 @@ const Menu = () => {
             <h1 className="text-5xl font-serif text-[#1a1e1b] mt-4 capitalize">{currentCategory.name}</h1>
             <p className="text-lg text-[#586152] max-w-xl mt-6">
               {activeItems.length > 0 
-                ? `${activeItems.length} items available based on current stock`
+                ? `${activeItems.filter(item => !item.disabled).length} items available based on current stock`
                 : 'No items available in this category'
               }
             </p>
@@ -232,7 +199,9 @@ const Menu = () => {
               {activeItems.map((item, index) => (
                 <div 
                   key={item.id} 
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+                  className={`bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 ${
+                    item.disabled ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   <div className="relative h-48 bg-[#ebefe9]">
                     <img 
@@ -246,6 +215,11 @@ const Menu = () => {
                         Popular
                       </div>
                     )}
+                    {item.disabled && (
+                      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <span className="text-white font-semibold">Out of Stock</span>
+                      </div>
+                    )}
                   </div>
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
@@ -256,14 +230,14 @@ const Menu = () => {
                     
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-[#586152]">
-                        {item.canMake === 999 ? 'Available' : `${item.canMake} left`}
+                        {item.disabled ? 'Unavailable' : 'Available'}
                       </span>
                       <button 
                         onClick={() => addToCart(item)}
                         className="bg-[#1a1e1b] text-white px-4 py-2 rounded-lg hover:bg-[#2a2e2b] transition-colors duration-200 text-sm"
-                        disabled={item.canMake === 0}
+                        disabled={item.disabled}
                       >
-                        Add to Cart
+                        {item.disabled ? 'Out of Stock' : 'Add to Cart'}
                       </button>
                     </div>
                   </div>
@@ -289,7 +263,8 @@ const Menu = () => {
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50">
         {categories.map((category) => {
-          const itemCount = availableItems.filter(item => item.category === category.id && item.available).length
+          const categoryItems = availableItems[category.id] || []
+          const availableCount = categoryItems.filter(item => !item.disabled).length
           
           return (
             <button
@@ -300,9 +275,9 @@ const Menu = () => {
               }`}
             >
               <span className="text-[10px] uppercase tracking-tighter">{category.name}</span>
-              {itemCount > 0 && (
+              {availableCount > 0 && (
                 <span className="text-xs bg-[#bb7336] text-white px-2 py-0.5 rounded-full text-[8px]">
-                  {itemCount}
+                  {availableCount}
                 </span>
               )}
             </button>

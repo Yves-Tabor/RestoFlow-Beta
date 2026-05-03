@@ -18,7 +18,7 @@ export default function Header() {
             const savedCart = localStorage.getItem('restoflow-cart')
             if (savedCart) {
                 const cart = JSON.parse(savedCart)
-                const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
+                const totalItems = cart.reduce((total, item) => total + (item.quantity || 1), 0)
                 setCartCount(totalItems)
             } else {
                 setCartCount(0)
@@ -90,6 +90,14 @@ export default function Header() {
                                     {cartCount}
                                 </span>
                             )}
+                        </NavLink>
+
+                        <NavLink 
+                            to="/top/orders" 
+                            onClick={closeSidebar}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
+                        >
+                            <span>Orders</span>
                         </NavLink>
 
                         <NavLink 

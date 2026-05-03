@@ -5,6 +5,8 @@ const Menu = () => {
   const [cart, setCart] = useState([])
   const [activeCategory, setActiveCategory] = useState('starters')
   const [availableItems, setAvailableItems] = useState([])
+  const [showPopup, setShowPopup] = useState(false)
+  const [lastAddedItem, setLastAddedItem] = useState(null)
   const menuData = useLoaderData()
 
   const getImageForMenuItem = (itemId) => {
@@ -25,14 +27,33 @@ const Menu = () => {
   }
 
   useEffect(() => {
-    const savedCart = localStorage.getItem('restoflow-cart')
-    if (savedCart) {
-      setCart(JSON.parse(savedCart))
+    const loadCart = () => {
+      const savedCart = localStorage.getItem('restoflow-cart')
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart)
+        setCart(parsedCart)
+      }
+    }
+    
+    loadCart()
+    
+    const handleCartUpdated = () => {
+      setTimeout(() => {
+        loadCart()
+      }, 100)
+    }
+    
+    window.addEventListener('cartUpdated', handleCartUpdated)
+    
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdated)
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('restoflow-cart', JSON.stringify(cart))
+    if (cart.length > 0) {
+      localStorage.setItem('restoflow-cart', JSON.stringify(cart))
+    }
   }, [cart])
 
   useEffect(() => {
@@ -124,8 +145,18 @@ const Menu = () => {
     } else {
       newCart = [...cart, { ...item, quantity: 1 }]
     }
+    
     setCart(newCart)
-    window.dispatchEvent(new Event('cartUpdated'))
+    setLastAddedItem(item)
+    setShowPopup(true)
+    
+    setTimeout(() => {
+      setShowPopup(false)
+    }, 2000)
+    
+    setTimeout(() => {
+      window.dispatchEvent(new Event('cartUpdated'))
+    }, 0)
   }
 
   const resetCart = () => {
@@ -144,7 +175,7 @@ const Menu = () => {
             </div>
            <button onClick={resetCart} className="flex justify-end md:hidden bg-[#1a1e1b] text-white px-4 py-2 rounded-lg hover:bg-[#2a2e2b] transition-colors duration-200 text-sm">
              Reset Cart
-           </button> 
+            </button> 
             <div className="hidden md:flex items-center gap-2">
               {categories.map((category) => {
                 const categoryItems = availableItems.filter(item => item.category === category.id && item.available)
@@ -278,6 +309,17 @@ const Menu = () => {
           )
         })}
       </nav>
+
+      {showPopup && lastAddedItem && (
+        <div className="fixed top-20 right-4 bg-[#1a1e1b] text-white px-6 py-4 rounded-lg shadow-lg z-50">
+          <div className="flex items-center gap-3">
+            <div>
+              <p className="font-semibold">{lastAddedItem.name}</p>
+              <p className="text-sm text-gray-300">Added to cart!</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

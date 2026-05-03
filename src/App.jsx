@@ -59,7 +59,7 @@ const router = createBrowserRouter(
       <Route path='top' element={<TopLayout/>}>
         <Route index element={<Home/>} errorElement={<Error/>} loader={stockLoader} />
         <Route path="menu" element={<Menu/>} errorElement={<Error/>} loader={menuLoader} />
-        <Route path="cart" element={<Cart/>} errorElement={<Error/>} />
+        <Route path="cart" element={<Cart/>} errorElement={<Error/>}/>
         <Route path="stock" element={<Stock/>} errorElement={<Error/>} loader={stockLoader} />
         <Route path="analytics" element={<Analytics/>} errorElement={<Error/>} />
       </Route>

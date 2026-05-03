@@ -28,8 +28,8 @@ const router = createBrowserRouter(
     <Route>
       <Route index element={<Welcome/>} loader={welcomeLoader}/>
       <Route path='top' element={<TopLayout/>}>
-        <Route index element={<Home/>} />
-        <Route path="Menu" element={<Menu/>} />
+        <Route path='home' element={<Home/>} />
+        <Route path="menu" element={<Menu/>} />
         <Route path="cart" element={<Cart/>} />
         <Route path="stock" element={<Stock/>} />
         <Route path="analytics" element={<Analytics/>} />

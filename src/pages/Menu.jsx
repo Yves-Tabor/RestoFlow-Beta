@@ -142,7 +142,9 @@ const Menu = () => {
             <div className="flex items-center gap-4">
               <h2 className="font-serif text-lg text-[#1a1e1b]">Menu</h2>
             </div>
-            
+           <button onClick={resetCart} className="flex justify-end md:hidden bg-[#1a1e1b] text-white px-4 py-2 rounded-lg hover:bg-[#2a2e2b] transition-colors duration-200 text-sm">
+             Reset Cart
+           </button> 
             <div className="hidden md:flex items-center gap-2">
               {categories.map((category) => {
                 const categoryItems = availableItems.filter(item => item.category === category.id && item.available)
@@ -246,9 +248,9 @@ const Menu = () => {
           )}
 
           <footer className="mt-32 pt-16 border-t border-[#c4c7c3]/10 text-center">
-            <p className="text-xs tracking-widest uppercase text-[#444844] mb-4">FRESH INGREDIENTS, SMART PRICING</p>
+            <p className="text-xs tracking-widest uppercase text-[#444844] mb-4">FRESH INGREDIENTS, RIGHT SERVING</p>
             <p className="text-base text-[#586152] max-w-2xl mx-auto italic">
-              Our menu is dynamically generated based on available stock. Prices are calculated to ensure quality ingredients while providing fair value. Items may become unavailable as ingredients are used.
+              The menu is considering the available stock. Items may become unavailable as orders are processed.
             </p>
           </footer>
         </div>

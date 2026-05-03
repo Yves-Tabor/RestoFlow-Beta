@@ -35,7 +35,8 @@ export default function Header() {
                     
                     <nav className="space-y-2">
                         <NavLink 
-                            to="home" 
+                            to="/top" 
+                            end
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
                         >
@@ -43,7 +44,7 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
-                            to="menu" 
+                            to="/top/menu" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
                         >
@@ -51,7 +52,7 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
-                            to="cart" 
+                            to="/top/cart" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
                         >
@@ -59,7 +60,7 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
-                            to="stock" 
+                            to="/top/stock" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
                         >
@@ -67,7 +68,7 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
-                            to="analytics" 
+                            to="/top/analytics" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-lg font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-lg font-medium transition-colors"}
                         >
@@ -77,7 +78,7 @@ export default function Header() {
                     <div className="absolute bottom-6 left-6 right-6">
                         <div className="border-t border-white/20 pt-4">
                             <div className="text-white/60 text-sm">
-                                <p>© 2026 RestoFlow</p>
+                                <p> 2026 RestoFlow</p>
                                 <p className="text-xs mt-1">Restaurant Management System</p>
                             </div>
                         </div>

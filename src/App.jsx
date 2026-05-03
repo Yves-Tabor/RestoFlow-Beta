@@ -26,9 +26,9 @@ const welcomeLoader = async () => {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route index element={<Welcome/>} loader={welcomeLoader}/>
+      <Route path='/' element={<Welcome/>} loader={welcomeLoader}/>
       <Route path='top' element={<TopLayout/>}>
-        <Route path='home' element={<Home/>} />
+        <Route index element={<Home/>} />
         <Route path="menu" element={<Menu/>} />
         <Route path="cart" element={<Cart/>} />
         <Route path="stock" element={<Stock/>} />

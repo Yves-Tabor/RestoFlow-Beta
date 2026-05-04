@@ -26,7 +26,7 @@ class DataService {
     })
   }
 
-  // Unified order fetching
+  // Unified order fetching (localStorage-first for reliability)
   async getOrders(useCache = true) {
     const cacheKey = 'orders'
     
@@ -35,37 +35,12 @@ class DataService {
       if (cached) return cached
     }
 
-    try {
-      let orders = []
-      
-      // Try Firebase first
-      if (this.firebase) {
-        try {
-          orders = await this.firebase.getOrders()
-          console.log('📦 Orders fetched from Firebase:', orders.length)
-        } catch (firebaseError) {
-          console.log('⚠️ Firebase connection blocked, using localStorage only:', firebaseError.message)
-          // Continue to localStorage fallback
-        }
-      }
-      
-      // Always merge with localStorage for latest data
-      const localOrders = JSON.parse(localStorage.getItem('restof-orders') || '[]')
-      
-      // Merge data, preferring Firebase but adding any local-only orders
-      const mergedOrders = this.mergeOrdersData(orders, localOrders)
-      
-      this.setCachedData(cacheKey, mergedOrders)
-      return mergedOrders
-      
-    } catch (error) {
-      console.log('⚠️ Network error, using localStorage fallback:', error.message)
-      
-      // Fallback to localStorage only
-      const localOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
-      this.setCachedData(cacheKey, localOrders)
-      return localOrders
-    }
+    // Use localStorage as primary source for reliability
+    const localOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
+    console.log('📦 Orders loaded from localStorage:', localOrders.length)
+    
+    this.setCachedData(cacheKey, localOrders)
+    return localOrders
   }
 
   mergeOrdersData(firebaseOrders, localOrders) {
@@ -85,7 +60,7 @@ class DataService {
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
   }
 
-  // Unified analytics fetching
+  // Unified analytics fetching (localStorage-first for reliability)
   async getAnalytics(useCache = true) {
     const cacheKey = 'analytics'
     
@@ -94,38 +69,12 @@ class DataService {
       if (cached) return cached
     }
 
-    try {
-      let analytics = {}
-      
-      // Try Firebase first
-      if (this.firebase) {
-        try {
-          const firebaseAnalytics = await this.firebase.getAnalyticsData(365) // Get last year
-          analytics = firebaseAnalytics
-          console.log('📊 Analytics fetched from Firebase:', Object.keys(analytics).length, 'days')
-        } catch (firebaseError) {
-          console.log('⚠️ Firebase connection blocked for analytics, using localStorage only:', firebaseError.message)
-          // Continue to localStorage fallback
-        }
-      }
-      
-      // Always merge with localStorage
-      const localAnalytics = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
-      
-      // Merge analytics data
-      const mergedAnalytics = { ...localAnalytics, ...analytics }
-      
-      this.setCachedData(cacheKey, mergedAnalytics)
-      return mergedAnalytics
-      
-    } catch (error) {
-      console.log('⚠️ Network error for analytics, using localStorage only:', error.message)
-      
-      // Fallback to localStorage only
-      const localAnalytics = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
-      this.setCachedData(cacheKey, localAnalytics)
-      return localAnalytics
-    }
+    // Use localStorage as primary source for reliability
+    const localAnalytics = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
+    console.log('📊 Analytics loaded from localStorage:', Object.keys(localAnalytics).length, 'days')
+    
+    this.setCachedData(cacheKey, localAnalytics)
+    return localAnalytics
   }
 
   // Get today's analytics summary

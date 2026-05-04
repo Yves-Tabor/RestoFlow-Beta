@@ -114,40 +114,26 @@ const Cart = () => {
     
     trackAnalyticsData(order)
     
-    // Save order (try Firebase first, fallback to localStorage)
-    try {
-      if (isConnected) {
-        await saveOrder(order)
-        console.log('✅ Order saved to Firebase:', order.id)
-      }
-    } catch (error) {
-      console.log('⚠️ Firebase save failed, using localStorage fallback:', error.message)
-    }
-    
-    // Always save to localStorage as backup
+    // Save order (localStorage-first approach for reliability)
     const existingOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
     const updatedOrders = [order, ...existingOrders]
     localStorage.setItem('restoflow-orders', JSON.stringify(updatedOrders))
     
+    console.log('✅ Order saved to localStorage:', order.id)
+    
     // Trigger orders update event
     window.dispatchEvent(new Event('ordersUpdated'))
     
-    // Also update stock (always localStorage)
-    await saveStock(JSON.parse(localStorage.getItem('restoflow-stock') || '{}'))
+    // Update stock (localStorage only)
+    const currentStock = JSON.parse(localStorage.getItem('restoflow-stock') || '{}')
+    localStorage.setItem('restoflow-stock', JSON.stringify(currentStock))
     
-    // Update analytics (always localStorage)
+    // Update analytics (localStorage only)
     const today = new Date().toISOString().split('T')[0]
     const analyticsData = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
-    if (analyticsData[today]) {
-      try {
-        if (isConnected) {
-          await saveAnalytics(today, analyticsData[today])
-          console.log('✅ Analytics saved to Firebase')
-        }
-      } catch (error) {
-        console.log('⚠️ Analytics save failed, using localStorage only:', error.message)
-      }
-    }
+    localStorage.setItem('restoflow-analytics', JSON.stringify(analyticsData))
+    
+    console.log('✅ All data saved locally - system working offline')
     
     // Don't clear cart - just save order to kitchen
     

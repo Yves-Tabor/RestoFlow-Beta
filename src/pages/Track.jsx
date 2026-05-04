@@ -12,20 +12,26 @@ const Track = () => {
       setOrders(parsedOrders)
     }
     setLoading(false)
+    
+    // Listen for order status updates
+    const handleOrdersUpdated = () => {
+      const updatedOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
+      setOrders(updatedOrders)
+    }
+    
+    window.addEventListener('ordersUpdated', handleOrdersUpdated)
+    
+    return () => {
+      window.removeEventListener('ordersUpdated', handleOrdersUpdated)
+    }
   }, [])
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'confirmed':
-        return 'text-[#bb7336]'
-      case 'preparing':
+      case 'pending':
         return 'text-[#f59e0b]'
-      case 'ready':
-        return 'text-[#10b981]'
-      case 'serving':
-        return 'text-[#3b82f6]'
       case 'completed':
-        return 'text-[#6b7280]'
+        return 'text-[#10b981]'
       default:
         return 'text-[#586152]'
     }
@@ -33,18 +39,12 @@ const Track = () => {
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'confirmed':
-        return 'Order Confirmed'
-      case 'preparing':
-        return 'Kitchen Preparing'
-      case 'ready':
-        return 'Ready for Pickup'
-      case 'serving':
-        return 'Being Served'
+      case 'pending':
+        return 'Pending'
       case 'completed':
         return 'Completed'
       default:
-        return 'Pending'
+        return 'Unknown'
     }
   }
 
@@ -139,19 +139,12 @@ const Track = () => {
                   </div>
                 )}
 
-                <div className="mt-6 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-3 h-3 rounded-full bg-[#bb7336]"></div>
-                    <div className="w-16 h-px bg-[#bb7336]"></div>
-                    <div className={`w-3 h-3 rounded-full ${order.status === 'confirmed' ? 'bg-[#bb7336]' : 'bg-[#c4c7c3]'}`}></div>
-                    <div className="w-16 h-px bg-[#c4c7c3]"></div>
-                    <div className={`w-3 h-3 rounded-full ${['preparing', 'ready', 'serving', 'completed'].includes(order.status) ? 'bg-[#bb7336]' : 'bg-[#c4c7c3]'}`}></div>
-                    <div className="w-16 h-px bg-[#c4c7c3]"></div>
-                    <div className={`w-3 h-3 rounded-full ${['ready', 'serving', 'completed'].includes(order.status) ? 'bg-[#bb7336]' : 'bg-[#c4c7c3]'}`}></div>
-                    <div className="w-16 h-px bg-[#c4c7c3]"></div>
-                    <div className={`w-3 h-3 rounded-full ${['serving', 'completed'].includes(order.status) ? 'bg-[#bb7336]' : 'bg-[#c4c7c3]'}`}></div>
-                    <div className="w-16 h-px bg-[#c4c7c3]"></div>
-                    <div className={`w-3 h-3 rounded-full ${order.status === 'completed' ? 'bg-[#bb7336]' : 'bg-[#c4c7c3]'}`}></div>
+                <div className="mt-4 pt-4 border-t border-[#c4c7c3]/20">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-[#586152]">Order Status</span>
+                    <span className={`text-sm font-semibold ${getStatusColor(order.status)}`}>
+                      {getStatusText(order.status)}
+                    </span>
                   </div>
                 </div>
               </div>

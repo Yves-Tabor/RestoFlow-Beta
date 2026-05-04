@@ -50,7 +50,22 @@ const Menu = () => {
       
       menuDataToUse.menuItems.forEach(item => {
         if (organizedMenu[item.category]) {
-          organizedMenu[item.category].push(item)
+          const stockData = JSON.parse(localStorage.getItem('restoflow-stock') || '{}')
+          let hasOutOfStockIngredient = false
+
+          item.ingredients?.forEach(ingredientId => {
+            stockData.categories?.forEach(stockCategory => {
+              const stockItem = stockCategory.items?.find(sItem => sItem.id === ingredientId)
+              if (stockItem && stockItem.quantity <= 0) {
+                hasOutOfStockIngredient = true
+              }
+            })
+          })
+          
+          organizedMenu[item.category].push({
+            ...item,
+            disabled: hasOutOfStockIngredient
+          })
         }
       })
       
@@ -63,10 +78,16 @@ const Menu = () => {
       loadMenuData()
     }
     
+    const handleStockUpdated = () => {
+      loadMenuData()
+    }
+    
     window.addEventListener('menuUpdated', handleMenuUpdated)
+    window.addEventListener('stockUpdated', handleStockUpdated)
     
     return () => {
       window.removeEventListener('menuUpdated', handleMenuUpdated)
+      window.removeEventListener('stockUpdated', handleStockUpdated)
     }
   }, [menuData])
 
@@ -130,17 +151,17 @@ const Menu = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7faf4]">
-      <nav className="sticky top-0 z-40 bg-white border-b border-[#c4c7c3]/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
+    <div className="min-h-screen bg-white">
+      <nav className="sticky top-0 z-40 md:z-20 bg-white border-b border-[#c4c7c3]/50 backdrop-blur-sm">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex w-full items-center justify-between h-16">
+            <div className="flex items-center pr-4">
               <h2 className="font-serif text-lg text-[#1a1e1b]">Menu</h2>
             </div>
-           <button onClick={resetCart} className="flex justify-end md:hidden bg-[#1a1e1b] text-white px-4 py-2 rounded-lg hover:bg-[#2a2e2b] transition-colors duration-200 text-sm">
+           <button onClick={resetCart} className="flex justify-end lg:hidden bg-black text-white px-4 py-2 rounded-lg hover:bg-[#2a2e2b] transition-colors duration-200 text-sm">
              Reset Cart
             </button> 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2">
               {categories.map((category) => {
                 const categoryItems = availableItems[category.id] || []
                 const availableCount = categoryItems.filter(item => !item.disabled).length
@@ -166,7 +187,7 @@ const Menu = () => {
               })}
             </div>
             
-            <div className="hidden lg:block">
+            <div className="hidden lg:block pr-1">
               <button 
                 onClick={resetCart}
                 className="font-serif text-sm tracking-widest uppercase bg-[#dce6d3] hover:bg-[#c4c7c3] rounded-lg px-4 py-2 transition-colors duration-200"
@@ -259,7 +280,7 @@ const Menu = () => {
         <div className='block md:hidden p-7'></div>
       </main>
 
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50">
+      <nav className="lg:hidden fixed bottom-0 md:w-4/5 left-1/2 -translate-x-1/2 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50 md:z-20 scroll-smooth">
         {categories.map((category) => {
           const categoryItems = availableItems[category.id] || []
           const availableCount = categoryItems.filter(item => !item.disabled).length

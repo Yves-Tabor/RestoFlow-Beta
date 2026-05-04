@@ -5,8 +5,7 @@ import Popup from './Popup'
 
 export default function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-    const [cartCount, setCartCount] = useState(0)
-    const [showSyncButton, setShowSyncButton] = useState(false)
+        const [showSyncButton, setShowSyncButton] = useState(false)
     const [isSyncing, setIsSyncing] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
     const [popupMessage, setPopupMessage] = useState('')
@@ -46,7 +45,6 @@ export default function Header() {
         }
 
         const handleStockUpdated = () => {
-            // Show sync button when stock is updated
             setShowSyncButton(true)
         }
 
@@ -64,23 +62,12 @@ export default function Header() {
                 setIsSyncing(false)
             }
         }
-
-        updateCartCount()
         
-        const handleStorageChange = () => {
-            updateCartCount()
-        }
-        
-        window.addEventListener('storage', handleStorageChange)
-        window.addEventListener('cartUpdated', handleStorageChange)
         window.addEventListener('stockUpdated', handleStockUpdated)
         
-        // Make sync function available globally
         window.syncStockToDatabase = syncToDatabase
         
         return () => {
-            window.removeEventListener('storage', handleStorageChange)
-            window.removeEventListener('cartUpdated', handleStorageChange)
             window.removeEventListener('stockUpdated', handleStockUpdated)
         }
     }, [])
@@ -130,11 +117,6 @@ export default function Header() {
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
                         >
                             <span>Cart</span>
-                            {cartCount > 0 && (
-                                <span className="bg-[#bb7336] text-white text-xs px-2 py-0.5 rounded-full">
-                                    {cartCount}
-                                </span>
-                            )}
                         </NavLink>
 
                         <NavLink 
@@ -161,7 +143,7 @@ export default function Header() {
                             <span>Analytics</span>
                         </NavLink>
 
-                        {showSyncButton && (
+                        {/* {showSyncButton && (
                             <button
                                 onClick={() => {
                                     window.syncStockToDatabase()
@@ -175,12 +157,12 @@ export default function Header() {
                                 </span>
                                 <span>{isSyncing ? 'Syncing...' : 'Sync to Database'}</span>
                             </button>
-                        )}
+                        )} */}
                     </nav>
                     <div className="absolute bottom-6 left-6 right-6">
                         <div className="border-t border-white/20 pt-4">
                             <div className="text-white/60 text-sm">
-                                <p> 2026 RestoFlow</p>
+                                <p><span className="italic">©</span> 2026 RestoFlow</p>
                                 <p className="text-xs mt-1">Restaurant Management System</p>
                             </div>
                         </div>
@@ -195,13 +177,13 @@ export default function Header() {
                 />
             )}
             
-            {/* Sync Popup */}
+            {/* Sync Popup
             <Popup 
                 show={showPopup}
                 message={popupMessage}
                 submessage={popupSubmessage}
                 type={popupType}
-            />
+            /> */}
         </>
     )
 }

@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { useFirebase } from '../hooks/useFirebase'
 import dataService from '../services/dataService'
 
 const Orders = () => {
-  const { getOrders, updateOrderStatus: updateOrderStatusFirebase } = useFirebase()
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState('all') // all, pending, completed
-  const [showAllOrders, setShowAllOrders] = useState(false) // show all orders or just today's
+  const [filter, setFilter] = useState('all')
+  const [showAllOrders, setShowAllOrders] = useState(false)
+  const [forceRender, setForceRender] = useState(0)
 
   useEffect(() => {
-    // Initialize data service with Firebase
-    dataService.setFirebase({ getOrders, getAnalyticsData: () => {} })
-    
     loadOrders()
     
-    // Listen for order updates
     const handleOrderUpdate = () => {
+      console.log('🔄 Orders updated, reloading...')
       loadOrders()
     }
     
@@ -25,7 +21,7 @@ const Orders = () => {
     return () => {
       window.removeEventListener('ordersUpdated', handleOrderUpdate)
     }
-  }, [showAllOrders]) // Reload orders when toggle changes
+  }, [showAllOrders])
 
   const loadOrders = async () => {
     try {
@@ -33,22 +29,30 @@ const Orders = () => {
       const allOrders = await dataService.getOrders()
       console.log('📦 Orders loaded:', allOrders.length, 'orders')
       
-      // Filter orders based on showAllOrders toggle
-      let filteredOrders = allOrders
+      const uniqueOrders = allOrders.reduce((acc, order) => {
+        const existingIndex = acc.findIndex(o => o.id === order.id)
+        if (existingIndex === -1) {
+          const normalizedOrder = {
+            ...order,
+            status: order.status === 'confirmed' ? 'pending' : order.status
+          }
+          acc.push(normalizedOrder)
+        }
+        return acc
+      }, [])
+      
+            
+      let filteredOrders = uniqueOrders
       if (!showAllOrders) {
         const today = new Date().toISOString().split('T')[0]
-        filteredOrders = allOrders
+        filteredOrders = uniqueOrders
           .filter(order => order.timestamp && order.timestamp.startsWith(today))
-        console.log(`📅 Today's orders (${today}):`, filteredOrders.length, 'orders')
-      } else {
-        console.log('📊 All orders:', filteredOrders.length, 'orders')
-      }
+              }
       
-      console.log('📋 Orders with statuses:', filteredOrders.map(o => ({ id: o.id, status: o.status, timestamp: o.timestamp })))
-      
+            
       setOrders(filteredOrders)
     } catch (error) {
-      console.error('❌ Error loading orders:', error)
+      console.error('Error loading orders:', error)
       setOrders([])
     } finally {
       setLoading(false)
@@ -56,24 +60,17 @@ const Orders = () => {
   }
 
   const handleUpdateOrderStatus = async (orderId, newStatus) => {
-    try {
-      // Try Firebase first
-      await updateOrderStatusFirebase(orderId, newStatus)
-      console.log('✅ Order status updated in Firebase:', orderId, '→', newStatus)
-      loadOrders() // Refresh orders
-    } catch (error) {
-      console.log('⚠️ Firebase update failed, using localStorage fallback:', error.message)
+    const localOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
+    const orderIndex = localOrders.findIndex(order => order.id === orderId)
+    
+    if (orderIndex !== -1) {
+      localOrders[orderIndex].status = newStatus
+      localStorage.setItem('restoflow-orders', JSON.stringify(localOrders))
       
-      // Fallback to localStorage
-      const localOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
-      const orderIndex = localOrders.findIndex(order => order.id === orderId)
-      if (orderIndex !== -1) {
-        localOrders[orderIndex].status = newStatus
-        localStorage.setItem('restoflow-orders', JSON.stringify(localOrders))
-        window.dispatchEvent(new Event('ordersUpdated'))
-        console.log('✅ Order status updated in localStorage:', orderId, '→', newStatus)
-        loadOrders()
-      }
+      const newOrders = orders.map(order => 
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+      setOrders(newOrders)
     }
   }
 
@@ -97,27 +94,8 @@ const Orders = () => {
     return order.status === filter
   })
 
-  const resetDailyOrders = () => {
-    if (confirm('Are you sure you want to reset all orders for today? This will move them to history.')) {
-      const today = new Date().toISOString().split('T')[0]
-      const localOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
-      
-      // Move today's orders to history
-      const history = JSON.parse(localStorage.getItem('restoflow-history') || '[]')
-      const todayOrders = localOrders.filter(order => order.timestamp && order.timestamp.startsWith(today))
-      const updatedHistory = [...history, ...todayOrders]
-      
-      // Keep only non-today orders in current orders
-      const remainingOrders = localOrders.filter(order => !order.timestamp || !order.timestamp.startsWith(today))
-      
-      localStorage.setItem('restoflow-history', JSON.stringify(updatedHistory))
-      localStorage.setItem('restoflow-orders', JSON.stringify(remainingOrders))
-      
-      window.dispatchEvent(new Event('ordersUpdated'))
-      loadOrders()
-    }
-  }
-
+  
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f7faf4] flex items-center justify-center">
@@ -138,22 +116,15 @@ const Orders = () => {
             <nav className="hidden md:flex gap-6 font-serif text-sm tracking-wide">
               <span className="text-[#1a1e1b] font-semibold">Orders</span>
             </nav>
-            <button
-              onClick={resetDailyOrders}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm"
-            >
-              Reset Daily
-            </button>
           </div>
         </div>
       </header>
 
       <main className="pt-32 pb-40 px-4 max-w-7xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-serif text-[#1a1e1b] mb-4">Orders</h1>
-              <p className="text-[#586152]">Manage and track all customer orders</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -179,7 +150,6 @@ const Orders = () => {
           </div>
         </div>
 
-        {/* Filter Tabs */}
         <div className="mb-6 flex gap-2">
           <button
             onClick={() => setFilter('all')}
@@ -215,9 +185,6 @@ const Orders = () => {
 
         {filteredOrders.length === 0 ? (
           <div className="bg-white rounded-2xl border border-[#c4c7c3]/50 p-12 text-center">
-            <div className="w-16 h-16 bg-[#f7faf4] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="material-symbols-outlined text-2xl text-[#c4c7c3]">receipt_long</span>
-            </div>
             <h3 className="text-xl font-serif text-[#1a1e1b] mb-2">
               {filter === 'all' ? 'No orders today' : `No ${filter} orders`}
             </h3>
@@ -225,8 +192,8 @@ const Orders = () => {
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredOrders.map((order) => (
-              <div key={order.id} className="bg-white rounded-lg border border-[#c4c7c3]/50 p-6 shadow-sm">
+              {filteredOrders.map((order) => (
+              <div key={`${order.id}-${order.status}`} className="bg-white rounded-lg border border-[#c4c7c3]/50 p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-4 mb-2">
@@ -248,7 +215,6 @@ const Orders = () => {
                       </div>
                     </div>
                     
-                    {/* Show first few items */}
                     <div className="mt-2 text-sm text-[#586152]">
                       {order.items?.slice(0, 3).map((item, index) => (
                         <span key={index}>
@@ -266,7 +232,6 @@ const Orders = () => {
                     )}
                   </div>
                   
-                  {/* Action Button */}
                   {order.status === 'pending' && (
                     <button
                       onClick={() => handleUpdateOrderStatus(order.id, 'completed')}
@@ -278,7 +243,7 @@ const Orders = () => {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
         )}
       </main>
     </div>

@@ -53,6 +53,11 @@ const Cart = () => {
     }
   }, [])
   
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' })
+    localStorage.removeItem('restoflow-cart')
+  }
+  
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem('restoflow-cart', JSON.stringify(cart))
@@ -372,7 +377,6 @@ const Cart = () => {
         </div>
       </footer>
     
-    {/* Order Confirmation Popup */}
     <Popup 
       show={showPopup}
       message={popupMessage}

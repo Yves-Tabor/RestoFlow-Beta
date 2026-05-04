@@ -262,21 +262,22 @@ const Analytics = () => {
     <div className="min-h-screen bg-[#f7faf4]">
       <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
-          <div className="flex justify-between items-center gap-8">
-            <span className="text-xl font-serif italic text-[#1a1e1b]">RestoFlow</span>
-            <nav className="hidden md:flex gap-6 font-serif text-sm tracking-wide">
+          <div className="w-full flex justify-evenly items-center gap-8">
+            <span className="text-2xl font-serif text-[#1a1e1b]">RestoFlow</span>
+            <nav className="flex gap-6 font-serif text-sm tracking-wide">
               <span className="text-[#1a1e1b] font-semibold">Analytics</span>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="pt-32 pb-40 px-4 max-w-7xl mx-auto">
+      <main className="pt-28 pb-40 px-4 max-w-7xl mx-auto">
         <section className="mb-12">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between w-full">
             
-            <div className="hidden md:flex items-center gap-4">
-              <div className="bg-white rounded-lg border border-[#c4c7c3]/50 px-4 py-2 flex items-center gap-2">
+            <div className="flex items-center gap-4 w-full">
+              <div className="flex flex-col md:flex-row items-center gap-2">
+                <div className="bg-white rounded-lg border border-[#c4c7c3]/50 px-4 py-2 flex flex-col md:flex-row items-center gap-2">
                 <span className="material-symbols-outlined text-[#586152] text-sm">calendar</span>
                 <select
                   value={selectedPeriod}
@@ -301,12 +302,11 @@ const Analytics = () => {
                   />
                 </div>
               )}
-              
-              <button className="bg-[#bb7336] text-white px-4 py-2 rounded-lg hover:bg-[#9a5e2a] transition-colors flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm">refresh</span>
-                Refresh
-              </button>
+              </div>
             </div>
+              <button className="bg-[#bb7336] text-white px-4 py-2 rounded-lg hover:bg-[#9a5e2a] transition-colors flex items-center gap-2">
+                refresh
+              </button>
           </div>
         </section>
 
@@ -526,7 +526,6 @@ const Analytics = () => {
           </div>
         </section>
 
-        {/* Pending Orders Section */}
         <section className="bg-white rounded-2xl border border-[#c4c7c3]/50 shadow-sm overflow-hidden mb-12">
           <div className="p-8 border-b border-[#c4c7c3]/50">
             <div className="flex items-center justify-between">
@@ -544,8 +543,7 @@ const Analytics = () => {
           <div className="divide-y divide-[#c4c7c3]/20">
             {displayedOrders.length === 0 ? (
               <div className="p-12 text-center">
-                <span className="material-symbols-outlined text-4xl text-[#c4c7c3] mb-4">receipt_long</span>
-                <h3 className="text-lg font-serif text-[#1a1e1b] mb-2">No pending orders</h3>
+                <h3 className="text-xl font-serif text-[#1a1e1b] mb-2">No pending orders</h3>
                 <p className="text-[#586152]">All orders have been completed</p>
               </div>
             ) : (

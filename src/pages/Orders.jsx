@@ -111,16 +111,16 @@ const Orders = () => {
     <div className="min-h-screen bg-[#f7faf4]">
       <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
-          <div className="flex justify-between items-center gap-8 w-full">
-            <span className="text-xl font-serif italic text-[#1a1e1b]">RestoFlow</span>
-            <nav className="hidden md:flex gap-6 font-serif text-sm tracking-wide">
+          <div className="flex justify-evenly items-center gap-8 w-full">
+            <span className="text-2xl font-serif text-[#1a1e1b]">RestoFlow</span>
+            <nav className="flex gap-6 font-serif text-sm tracking-wide">
               <span className="text-[#1a1e1b] font-semibold">Orders</span>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="pt-32 pb-40 px-4 max-w-7xl mx-auto">
+      <main className="pt-24 pb-40 px-4 max-w-7xl mx-auto">
         <div className="mb-2">
           <div className="flex items-center justify-between">
             <div>

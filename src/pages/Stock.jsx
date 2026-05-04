@@ -154,26 +154,26 @@ const Stock = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7faf4]">
-      <header className="bg-[#f1f5ef]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
+    <div className="min-h-screen bg-[#A0522D]">
+      <header className="bg-[#A0522D]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
-          <div className="flex justify-between items-center gap-8">
-            <span className="text-xl font-serif italic text-[#1a1e1b]">RestoFlow</span>
-            <nav className="hidden md:flex gap-6 font-serif text-sm tracking-wide">
+          <div className="w-full flex justify-evenly items-center gap-8">
+            <span className="text-2xl font-serif text-[#1a1e1b]">RestoFlow</span>
+            <nav className="flex gap-6 font-serif text-sm tracking-wide">
               <span className="text-[#1a1e1b] font-semibold">Stock Management</span>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="pt-32 pb-40 px-4 max-w-7xl mx-auto min-h-screen">
+      <main className="pt-20 pb-20 px-4 max-w-7xl mx-auto min-h-screen">
         <div className="space-y-8">
           {stockData?.categories?.map((category) => (
-            <div key={category.id} className="bg-gray-300 rounded-md p-6">
-              <h2 className="text-2xl font-serif text-[#1a1e1b] mb-4">{category.name}</h2>
-              <p className="text-black gray-700 mb-6 font-serif text-sm">{category.description}</p>
+            <div key={category.id} className="bg-transparent opacity-60 rounded-md p-4">
+              <h2 className="text-2xl font-serif text-black mb-4">{category.name}</h2>
+              <p className="text-black mb-6 font-serif text-sm">{category.description}</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {category.items.map((item) => {
                   const status = getStockStatus(item.quantity, item.minStock)
                   return (
@@ -190,7 +190,7 @@ const Stock = () => {
                         backgroundRepeat: 'no-repeat'
                       }}
                     >
-                      <div className="absolute inset-0 bg-white bg-opacity-90"></div>
+                      <div className="absolute inset-0 bg-white bg-opacity-40"></div>
                       
                       <div className="relative z-10">
                         <div className="flex items-center justify-between mb-3">
@@ -203,26 +203,22 @@ const Stock = () => {
                         <div className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-[#586152]">Quantity:</span>
-                            <span className="font-semibold text-[#1a1e1b]">{item.quantity} {item.unit}</span>
+                            <span className="font-semibold text-black">{item.quantity} {item.unit}</span>
                           </div>
                           
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-[#586152]">Min Stock:</span>
-                            <span className="text-[#586152]">{item.minStock} {item.unit}</span>
+                            <span className="font-semibold text-black">{item.minStock} {item.unit}</span>
                           </div>
                           
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-[#586152]">Price:</span>
-                            <span className="text-[#586152]">${item.price}/{item.unit}</span>
+                            <span className="font-semibold text-black">${item.price}/{item.unit}</span>
                           </div>
                           
-                          <div className="text-xs text-[#586152] pt-2 border-t border-[#c4c7c3]/20">
+                          <div className="text-xs text-black pt-2 border-t border-[#c4c7c3]/20">
                             Last restocked: {item.lastRestocked}
                           </div>
-                        </div>
-                        
-                        <div className="mt-3 text-xs text-[#bb7336] font-semibold text-center">
-                          Click to update
                         </div>
                       </div>
                     </div>

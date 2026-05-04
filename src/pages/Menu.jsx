@@ -280,7 +280,7 @@ const Menu = () => {
         <div className='block md:hidden p-7'></div>
       </main>
 
-      <nav className="lg:hidden fixed bottom-0 md:w-4/5 left-1/2 -translate-x-1/2 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50 md:z-20 scroll-smooth">
+      <nav className="lg:hidden fixed bottom-0 w-full md:w-3/4 left-1/2 md:left-2/3 -translate-x-1/2 bg-[#f7faf4]/95 backdrop-blur-lg border-t border-[#c4c7c3]/50 flex justify-around py-4 z-50 md:z-20 scroll-smooth">
         {categories.map((category) => {
           const categoryItems = availableItems[category.id] || []
           const availableCount = categoryItems.filter(item => !item.disabled).length

@@ -1,24 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import { useLoaderData, Link } from 'react-router-dom'
+import { useFirebase } from '../hooks/useFirebase'
+import dataService from '../services/dataService'
 
 const Home = () => {
   const stockData = useLoaderData()
-  const [cart, setCart] = useState([])
+  const { getOrders, getAnalyticsData } = useFirebase()
   const [todayRevenue, setTodayRevenue] = useState(0)
   const [activeOrders, setActiveOrders] = useState(0)
+  const [totalOrders, setTotalOrders] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const savedCart = localStorage.getItem('restoflow-cart')
-    if (savedCart) {
-      setCart(JSON.parse(savedCart))
-    }
+    // Initialize data service with Firebase
+    dataService.setFirebase({ getOrders, getAnalyticsData })
+    
+    loadDashboardData()
   }, [])
 
-  useEffect(() => {
-    const revenue = cart.reduce((total, item) => total + (item.price * item.quantity), 0)
-    setTodayRevenue(revenue)
-    setActiveOrders(cart.length)
-  }, [cart])
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true)
+      
+      // Get today's revenue from orders (not cart)
+      const revenue = await dataService.getTodayRevenue()
+      setTodayRevenue(revenue)
+      
+      // Get today's order counts
+      const orderCounts = await dataService.getOrderCounts()
+      setActiveOrders(orderCounts.pending)
+      setTotalOrders(orderCounts.today)
+      
+      console.log('🏠 Dashboard data loaded:', { revenue, orderCounts })
+    } catch (error) {
+      console.error('❌ Error loading dashboard data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const stockItems = stockData?.categories?.flatMap(cat => cat.items) || []
   const totalStockItems = stockItems.length
@@ -35,7 +54,7 @@ const Home = () => {
       bgColor: "bg-green-50"
     },
     {
-      title: "Active Orders",
+      title: "Pending Orders",
       value: activeOrders,
       change: "+3 today",
       icon: "shopping_cart",

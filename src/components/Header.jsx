@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react"
 import { NavLink } from "react-router-dom"
+import { useFirebase } from '../hooks/useFirebase'
+import Popup from './Popup'
 
 export default function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const [cartCount, setCartCount] = useState(0)
+    const [showSyncButton, setShowSyncButton] = useState(false)
+    const [isSyncing, setIsSyncing] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState('')
+    const [popupSubmessage, setPopupSubmessage] = useState('')
+    const [popupType, setPopupType] = useState('success')
+    const { saveStock } = useFirebase()
     
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
@@ -11,6 +20,17 @@ export default function Header() {
 
     const closeSidebar = () => {
         setIsSidebarOpen(false)
+    }
+
+    const showSyncPopup = (message, submessage = '', type = 'success') => {
+        setPopupMessage(message)
+        setPopupSubmessage(submessage)
+        setPopupType(type)
+        setShowPopup(true)
+        
+        setTimeout(() => {
+            setShowPopup(false)
+        }, 3000)
     }
 
     useEffect(() => {
@@ -25,6 +45,26 @@ export default function Header() {
             }
         }
 
+        const handleStockUpdated = () => {
+            // Show sync button when stock is updated
+            setShowSyncButton(true)
+        }
+
+        const syncToDatabase = async () => {
+            try {
+                setIsSyncing(true)
+                const stockData = JSON.parse(localStorage.getItem('restoflow-stock') || '{}')
+                await saveStock(stockData)
+                setShowSyncButton(false)
+                showSyncPopup('Stock Synced!', 'Successfully synced to database')
+            } catch (error) {
+                console.error('Sync failed:', error)
+                showSyncPopup('Sync Failed', 'Failed to sync to database. Please try again.', 'error')
+            } finally {
+                setIsSyncing(false)
+            }
+        }
+
         updateCartCount()
         
         const handleStorageChange = () => {
@@ -33,10 +73,15 @@ export default function Header() {
         
         window.addEventListener('storage', handleStorageChange)
         window.addEventListener('cartUpdated', handleStorageChange)
+        window.addEventListener('stockUpdated', handleStockUpdated)
+        
+        // Make sync function available globally
+        window.syncStockToDatabase = syncToDatabase
         
         return () => {
             window.removeEventListener('storage', handleStorageChange)
             window.removeEventListener('cartUpdated', handleStorageChange)
+            window.removeEventListener('stockUpdated', handleStockUpdated)
         }
     }, [])
 
@@ -93,6 +138,14 @@ export default function Header() {
                         </NavLink>
 
                         <NavLink 
+                            to="/top/orders" 
+                            onClick={closeSidebar}
+                            className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
+                        >
+                            <span>Orders</span>
+                        </NavLink>
+
+                        <NavLink 
                             to="/top/stock" 
                             onClick={closeSidebar}
                             className={({isActive})=> isActive ? "flex items-center space-x-3 text-[#bb7336] bg-black/25 px-4 py-3 rounded-md font-medium" : "flex items-center space-x-3 text-white hover:bg-white/10 px-4 py-3 rounded-md font-medium transition-colors"}
@@ -107,6 +160,22 @@ export default function Header() {
                         >
                             <span>Analytics</span>
                         </NavLink>
+
+                        {showSyncButton && (
+                            <button
+                                onClick={() => {
+                                    window.syncStockToDatabase()
+                                    closeSidebar()
+                                }}
+                                disabled={isSyncing}
+                                className="flex items-center space-x-3 bg-green-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                <span className="material-symbols-outlined text-sm">
+                                    {isSyncing ? 'sync' : 'cloud_upload'}
+                                </span>
+                                <span>{isSyncing ? 'Syncing...' : 'Sync to Database'}</span>
+                            </button>
+                        )}
                     </nav>
                     <div className="absolute bottom-6 left-6 right-6">
                         <div className="border-t border-white/20 pt-4">
@@ -125,6 +194,14 @@ export default function Header() {
                     onClick={closeSidebar}
                 />
             )}
+            
+            {/* Sync Popup */}
+            <Popup 
+                show={showPopup}
+                message={popupMessage}
+                submessage={popupSubmessage}
+                type={popupType}
+            />
         </>
     )
 }

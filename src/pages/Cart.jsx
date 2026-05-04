@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
+import { useFirebase } from '../hooks/useFirebase'
+import Popup from '../components/Popup'
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -22,6 +24,10 @@ const cartReducer = (state, action) => {
 const Cart = () => {
   const [cart, dispatch] = useReducer(cartReducer, [])
   const [specialInstructions, setSpecialInstructions] = useState('')
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState('')
+  const [popupSubmessage, setPopupSubmessage] = useState('')
+  const { saveOrder, updateOrderStatus: updateOrderStatusFirebase, saveAnalytics, saveStock, isConnected } = useFirebase()
   
   useEffect(() => {
     const loadCart = () => {
@@ -61,7 +67,6 @@ const Cart = () => {
     } else {
       dispatch({ type: 'UPDATE_QUANTITY', payload: { id: itemId, quantity: newQuantity } })
     }
-    // Dispatch event after a small delay to ensure localStorage is updated first
     setTimeout(() => {
       window.dispatchEvent(new Event('cartUpdated'))
     }, 10)
@@ -69,7 +74,6 @@ const Cart = () => {
   
   const removeItem = (itemId) => {
     dispatch({ type: 'REMOVE_ITEM', payload: { id: itemId } })
-    // Dispatch event after a small delay to ensure localStorage is updated first
     setTimeout(() => {
       window.dispatchEvent(new Event('cartUpdated'))
     }, 10)
@@ -82,7 +86,17 @@ const Cart = () => {
   const serviceCharge = calculateSubtotal() * 0.125
   const total = calculateSubtotal() + serviceCharge
   
-  const confirmOrder = () => {
+  const showOrderPopup = (message, submessage = '') => {
+    setPopupMessage(message)
+    setPopupSubmessage(submessage)
+    setShowPopup(true)
+    
+    setTimeout(() => {
+      setShowPopup(false)
+    }, 3000)
+  }
+  
+  const confirmOrder = async () => {
     if (cart.length === 0) return
     
     const order = {
@@ -92,18 +106,128 @@ const Cart = () => {
       serviceCharge: serviceCharge,
       total: total,
       specialInstructions: specialInstructions,
-      status: 'confirmed',
+      status: 'pending',
       timestamp: new Date().toISOString()
     }
     
+    updateStockOnOrder(cart)
+    
+    trackAnalyticsData(order)
+    
+    // Save order (try Firebase first, fallback to localStorage)
+    try {
+      if (isConnected) {
+        await saveOrder(order)
+        console.log('✅ Order saved to Firebase:', order.id)
+      }
+    } catch (error) {
+      console.log('⚠️ Firebase save failed, using localStorage fallback:', error.message)
+    }
+    
+    // Always save to localStorage as backup
     const existingOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
     const updatedOrders = [order, ...existingOrders]
     localStorage.setItem('restoflow-orders', JSON.stringify(updatedOrders))
     
-    dispatch({ type: 'CLEAR_CART' })
+    // Trigger orders update event
+    window.dispatchEvent(new Event('ordersUpdated'))
+    
+    // Also update stock (always localStorage)
+    await saveStock(JSON.parse(localStorage.getItem('restoflow-stock') || '{}'))
+    
+    // Update analytics (always localStorage)
+    const today = new Date().toISOString().split('T')[0]
+    const analyticsData = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
+    if (analyticsData[today]) {
+      try {
+        if (isConnected) {
+          await saveAnalytics(today, analyticsData[today])
+          console.log('✅ Analytics saved to Firebase')
+        }
+      } catch (error) {
+        console.log('⚠️ Analytics save failed, using localStorage only:', error.message)
+      }
+    }
+    
+    // Don't clear cart - just save order to kitchen
+    
     setSpecialInstructions('')
     
-    window.location.href = '/top/cart/track'
+    // Show popup and redirect to orders
+    showOrderPopup('Order Confirmed!', 'Redirecting to orders...')
+    
+    setTimeout(() => {
+      window.location.href = '/top/orders'
+    }, 2000)
+  }
+
+  const updateStockOnOrder = (orderItems) => {
+    const savedStock = localStorage.getItem('restoflow-stock')
+    if (savedStock) {
+      const stockData = JSON.parse(savedStock)
+      
+      orderItems.forEach(orderItem => {
+        stockData.categories?.forEach(category => {
+          const stockItem = category.items?.find(item => item.id === orderItem.id)
+          if (stockItem && stockItem.quantity > 0) {
+            stockItem.quantity = Math.max(0, stockItem.quantity - orderItem.quantity)
+            stockItem.lastRestocked = new Date().toISOString()
+          }
+        })
+      })
+      
+      localStorage.setItem('restoflow-stock', JSON.stringify(stockData))
+      window.dispatchEvent(new Event('stockUpdated'))
+    }
+  }
+
+  const trackAnalyticsData = (order) => {
+    const today = new Date().toISOString().split('T')[0]
+    const existingAnalytics = JSON.parse(localStorage.getItem('restoflow-analytics') || '{}')
+    
+    if (!existingAnalytics[today]) {
+      existingAnalytics[today] = {
+        date: today,
+        revenue: 0,
+        totalOrders: 0,
+        averageCheck: 0,
+        itemsSold: {},
+        orders: []
+      }
+    }
+    
+    const dayAnalytics = existingAnalytics[today]
+    dayAnalytics.revenue += order.total
+    dayAnalytics.totalOrders += 1
+    dayAnalytics.averageCheck = dayAnalytics.revenue / dayAnalytics.totalOrders
+    dayAnalytics.orders.push(order)
+    
+    order.items.forEach(item => {
+      if (!dayAnalytics.itemsSold[item.id]) {
+        dayAnalytics.itemsSold[item.id] = {
+          name: item.name,
+          quantity: 0,
+          revenue: 0
+        }
+      }
+      dayAnalytics.itemsSold[item.id].quantity += item.quantity
+      dayAnalytics.itemsSold[item.id].revenue += item.price * item.quantity
+    })
+    
+    localStorage.setItem('restoflow-analytics', JSON.stringify(existingAnalytics))
+  }
+  
+  // Progress is now handled by the Kitchen component - individual order tracking
+
+  const updateOrderStatusLocal = (orderId, newStatus) => {
+    const savedOrders = JSON.parse(localStorage.getItem('restoflow-orders') || '[]')
+    const updatedOrders = savedOrders.map(order => 
+      order.id === orderId 
+        ? { ...order, status: newStatus }
+        : order
+    )
+    localStorage.setItem('restoflow-orders', JSON.stringify(updatedOrders))
+    window.dispatchEvent(new Event('ordersUpdated'))
   }
   
   if (cart.length === 0) {
@@ -257,33 +381,18 @@ const Cart = () => {
 
             <div className="absolute top-1/2 left-0 w-2/3 h-px bg-[#bb7336] -z-10"></div>
             
-            <div className="flex flex-col items-center gap-2 bg-[#f7faf4] px-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#bb7336]"></div>
-              <span className="text-[10px] font-label-caps uppercase text-[#1a1e1b]">Selection</span>
-            </div>
-
-            <div className="flex flex-col items-center gap-2 bg-[#f7faf4] px-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#bb7336] ring-4 ring-[#bb7336]/10"></div>
-              <span className="text-[10px] font-label-caps uppercase text-[#1a1e1b] font-bold">Summary</span>
-            </div>
             
-            <div className="flex flex-col items-center gap-2 bg-[#f7faf4] px-2 opacity-40">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#c4c7c3]"></div>
-              <span className="text-[10px] font-label-caps uppercase text-[#586152]">Confirmation</span>
-            </div>
-
-            <div className="flex flex-col items-center gap-2 bg-[#f7faf4] px-2 opacity-40">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#c4c7c3]"></div>
-              <span className="text-[10px] font-label-caps uppercase text-[#586152]">Kitchen</span>
-            </div>
-
-            <div className="flex flex-col items-center gap-2 bg-[#f7faf4] px-2 opacity-40">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#c4c7c3]"></div>
-              <span className="text-[10px] font-label-caps uppercase text-[#586152]">Service</span>
-            </div>
           </div>
         </div>
       </footer>
+    
+    {/* Order Confirmation Popup */}
+    <Popup 
+      show={showPopup}
+      message={popupMessage}
+      submessage={popupSubmessage}
+      type="success"
+    />
     </div>
   )
 }

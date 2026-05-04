@@ -50,7 +50,24 @@ const Menu = () => {
       
       menuDataToUse.menuItems.forEach(item => {
         if (organizedMenu[item.category]) {
-          organizedMenu[item.category].push(item)
+          // Check stock availability and disable if any ingredient is out of stock
+          const stockData = JSON.parse(localStorage.getItem('restoflow-stock') || '{}')
+          let hasOutOfStockIngredient = false
+          
+          // Check each ingredient of the menu item
+          item.ingredients?.forEach(ingredientId => {
+            stockData.categories?.forEach(stockCategory => {
+              const stockItem = stockCategory.items?.find(sItem => sItem.id === ingredientId)
+              if (stockItem && stockItem.quantity <= 0) {
+                hasOutOfStockIngredient = true
+              }
+            })
+          })
+          
+          organizedMenu[item.category].push({
+            ...item,
+            disabled: hasOutOfStockIngredient
+          })
         }
       })
       
@@ -63,10 +80,16 @@ const Menu = () => {
       loadMenuData()
     }
     
+    const handleStockUpdated = () => {
+      loadMenuData()
+    }
+    
     window.addEventListener('menuUpdated', handleMenuUpdated)
+    window.addEventListener('stockUpdated', handleStockUpdated)
     
     return () => {
       window.removeEventListener('menuUpdated', handleMenuUpdated)
+      window.removeEventListener('stockUpdated', handleStockUpdated)
     }
   }, [menuData])
 

@@ -9,19 +9,6 @@ service cloud.firestore {
     // Orders collection - read/write for testing (allow unauthenticated)
     match /orders/{orderId} {
       allow read, write: if true;
-      allow create: if request.auth != null && 
-        request.auth.uid != null &&
-        request.resource.data.keys().hasAll(['id', 'items', 'subtotal', 'serviceCharge', 'total', 'status', 'timestamp']) &&
-        request.resource.data.id is string &&
-        request.resource.data.items is list &&
-        request.resource.data.subtotal is number &&
-        request.resource.data.serviceCharge is number &&
-        request.resource.data.total is number &&
-        request.resource.data.status in ['pending', 'completed'];
-      allow update: if request.auth != null && 
-        request.auth.uid != null &&
-        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']) &&
-        request.resource.data.status in ['pending', 'completed'];
     }
     
     // Menu items collection - read-only for all authenticated users

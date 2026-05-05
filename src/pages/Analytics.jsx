@@ -535,7 +535,6 @@ const Analytics = () => {
               </div>
               <button className="bg-[#bb7336] text-white px-4 py-2 rounded-lg hover:bg-[#9a5e2a] transition-colors flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">refresh</span>
-                Refresh
               </button>
             </div>
           </div>

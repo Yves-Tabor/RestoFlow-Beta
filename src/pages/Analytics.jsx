@@ -271,13 +271,13 @@ const Analytics = () => {
         </div>
       </header>
 
-      <main className="pt-28 pb-40 px-4 max-w-7xl mx-auto">
-        <section className="mb-12">
-          <div className="flex items-center justify-between w-full">
+      <main className="pt-20 pb-40 px-4 max-w-7xl mx-auto">
+        <section className="mb-9">
+          <div className="flex items-center justify-between w-full items-center px-2">
             
             <div className="flex items-center gap-4 w-full">
-              <div className="flex flex-col md:flex-row items-center gap-2">
-                <div className="bg-white rounded-lg border border-[#c4c7c3]/50 px-4 py-2 flex flex-col md:flex-row items-center gap-2">
+              <div className="flex flex-col md:flex-row gap-2">
+                <div className="bg-white rounded-lg border border-[#c4c7c3]/50 px-4 py-2 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#586152] text-sm">calendar</span>
                 <select
                   value={selectedPeriod}
@@ -291,7 +291,7 @@ const Analytics = () => {
                 </select>
               </div>
               
-              {selectedPeriod === '1H' && (
+              {/* {selectedPeriod === '1H' && (
                 <div className="bg-white rounded-lg border border-[#c4c7c3]/50 px-4 py-2 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#586152] text-sm">schedule</span>
                   <input
@@ -301,7 +301,7 @@ const Analytics = () => {
                     className="bg-transparent border-none focus:ring-0 text-sm text-[#1a1e1b] font-medium"
                   />
                 </div>
-              )}
+              )} */}
               </div>
             </div>
               <button className="bg-[#bb7336] text-white px-4 py-2 rounded-lg hover:bg-[#9a5e2a] transition-colors flex items-center gap-2">

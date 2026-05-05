@@ -154,8 +154,8 @@ const Stock = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#A0522D]">
-      <header className="bg-[#A0522D]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
+    <div className="min-h-screen bg-[#8B7355]">
+      <header className="bg-[#8B7355]/90 backdrop-blur-md fixed top-0 left-0 right-0 z-20 md:z-50 border-b border-[#c4c7c3]/50">
         <div className="flex items-center w-full px-8 py-4 max-w-7xl mx-auto">
           <div className="w-full flex justify-evenly items-center gap-8">
             <span className="text-2xl font-serif text-[#1a1e1b]">RestoFlow</span>
